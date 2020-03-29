@@ -8,9 +8,9 @@ public class RepoFactory {
 
     public static void initFactory(){
         // Register all mappers in the system
-        register(Customer.class, new MySQLCustomerMapper());
-        register(Admin.class, new MySQLAdminMapper());
-        register(StoreOwner.class, new MySQLStoreOwnerMapper());
+        register(Customer.class, MySQLCustomerMapper.getInstance());
+        register(Admin.class, MySQLAdminMapper.getInstance());
+        register(StoreOwner.class, MySQLStoreOwnerMapper.getInstance());
     }
 
     // Static constructor

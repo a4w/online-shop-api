@@ -1,12 +1,28 @@
 package fci.swe2.onlineshopapi;
 
+import com.sun.net.httpserver.HttpServer;
+
+import java.io.IOException;
+import java.net.InetSocketAddress;
+
 public class Server {
-    public void initserver(){}
-    public void startserver(){}
+    HttpServer server = null;
+    public void initserver() throws IOException {
+        server = HttpServer.create(new InetSocketAddress(8000), 0);
+        server.createContext("/register", new RegisterAPI());
+    }
+    public void startserver(){
+        server.setExecutor(null); // creates a default executor
+        server.start();
+    }
 
     public static void main(String[] args){
-        Server server = new Server();
-        server.initserver();
-        server.startserver();
+        Server S = new Server();
+        try {
+            S.initserver();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        S.startserver();
     }
 }

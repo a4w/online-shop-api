@@ -6,7 +6,17 @@ import java.util.Map;
 public class RepoFactory {
     private static Map<Object, Object> repos = new HashMap<Object, Object>();
 
-    public void initFactory(){}
+    public static void initFactory(){
+        // Register all mappers in the system
+        register(Customer.class, new MySQLCustomerMapper());
+        register(Admin.class, new MySQLAdminMapper());
+        register(StoreOwner.class, new MySQLStoreOwnerMapper());
+    }
+
+    // Static constructor
+    static{
+        initFactory();
+    }
 
     public static <T> void register(Class<T> clazz, Repository<T> mapper){
         repos.put(clazz, mapper);

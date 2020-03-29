@@ -9,16 +9,17 @@ public class RepoFactory {
     public void initFactory(){}
 
     public static <T> void register(Class<T> clazz, Repository<T> mapper){
+        repos.put(clazz, mapper);
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Repository<T> getMapper(Class<T> clazz){
-        return (Repository<T>) new Object();
+        return (Repository<T>) repos.get(clazz);
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Repository<T> getMapper(Object object){
-        return (Repository<T>) new Object();
+        return (Repository<T>) repos.get(object.getClass());
     }
 
 }

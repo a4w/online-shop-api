@@ -7,6 +7,26 @@ abstract class Account {
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
+    }
+
+    public void setRegistrationBehaviour(RegistrationBehaviour registrationBehaviour) {
+        this.registrationBehaviour = registrationBehaviour;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     protected long getUserID(){
         return this.userID;
     }

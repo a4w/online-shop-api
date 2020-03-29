@@ -49,7 +49,9 @@ abstract class Account {
         return this.username;
     }
 
-    protected void register() throws ValidationException{}
+    protected void register() throws ValidationException{
+        this.registrationBehaviour.register(this);
+    }
 }
 
 

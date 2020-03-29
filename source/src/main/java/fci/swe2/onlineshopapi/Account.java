@@ -6,7 +6,12 @@ abstract class Account {
     protected String email;
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
-
+    Account(long userID , String username , String email , String password){
+        this.userID = userID;
+        this.email = email;
+        this.username= username;
+        this.password = password;
+    }
     public void setEmail(String email) {
         this.email = email;
     }

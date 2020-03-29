@@ -7,7 +7,7 @@ abstract class Account {
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
 
-    protected int getUserID(){
+    protected long getUserID(){
         return this.userID;
     }
 

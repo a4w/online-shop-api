@@ -43,22 +43,19 @@ public class DefaultParser implements HTTPExchangeParser {
         return this.params.get(key);
     }
 
-    public JSONObject parseBody(){
+    public JSONObject parseBody() throws Exception{
         StringBuilder buf = new StringBuilder(512);
-        try {
+
         InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
         BufferedReader br = new BufferedReader(isr);
         int b;
         while((b = br.read()) != -1){
             buf.append((char) b);
         }
+
         br.close();
         isr.close();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch(IOException e){
-            e.printStackTrace();
-        }
+
         return new JSONObject(buf.toString());
     }
 }

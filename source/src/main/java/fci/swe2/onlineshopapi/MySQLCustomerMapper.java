@@ -10,7 +10,7 @@ public class MySQLCustomerMapper implements Repository<Customer> {
     }
 
     public Customer[] retrieveAll(){
-        return new Customer[0];
+        return null;
     }
     public void store(Customer obj){}
     public void update(Customer obj){}

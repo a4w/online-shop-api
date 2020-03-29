@@ -10,7 +10,7 @@ public class MySQLAdminMapper implements Repository<Admin> {
     }
 
     public Admin[] retrieveAll(){
-        return new Admin[0];
+        return null;
     }
 
     public void store(Admin obj){}

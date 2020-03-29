@@ -9,7 +9,7 @@ public class DefaultParser implements HTTPExchangeParser {
     DefaultParser(HttpExchange exchange){}
 
     public String[] getURLpath(){
-        return new String[0];
+        return null;
     }
 
     public String getParameter(String method, String key){

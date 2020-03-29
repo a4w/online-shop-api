@@ -1,5 +1,7 @@
 package fci.swe2.onlineshopapi;
 
+import fci.swe2.onlineshopapi.exceptions.ValidationException;
+
 abstract class Account {
     protected long userID;
     protected String username;

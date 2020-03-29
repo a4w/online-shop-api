@@ -2,6 +2,10 @@ package fci.swe2.onlineshopapi;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import fci.swe2.onlineshopapi.exceptions.EmailAlreadyExistsException;
+import fci.swe2.onlineshopapi.exceptions.PasswordTooShortException;
+import fci.swe2.onlineshopapi.exceptions.UsernameAlreadyExistsException;
+import fci.swe2.onlineshopapi.exceptions.ValidationException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -9,12 +13,12 @@ import java.io.OutputStream;
 
 public class RegisterAPI implements HttpHandler {
     HTTPExchangeParser myParser = null;
-    JSONObject jsonObject = null ;
+    JSONObject getRequestJson = null ;
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         myParser = new DefaultParser(exchange);
         String []urlParameters=  myParser.getURLpath();
-        jsonObject = myParser.parseBody();
+        getRequestJson = myParser.parseBody();
         if(urlParameters.length <2){
             /// todo error
             return;
@@ -38,39 +42,88 @@ public class RegisterAPI implements HttpHandler {
 
     private void registerCustomer(HttpExchange exchange){
         Customer customer = getCustomerFromJSON();
-        customer.register();
+        registerAccount(exchange,customer);
         //todo handle the exceptions in setting the attributes
     }
     private void registerStoreOwner(HttpExchange exchange){
         StoreOwner storeOwner = getStoreOwnerFromJSON();
-        storeOwner.register();
+        registerAccount(exchange,storeOwner);
         //todo handle the exceptions in setting the attributes
     }
     private void registerAdmin(HttpExchange exchange){
         Admin admin = getAdminFromJSON();
-        admin.register();
+        registerAccount(exchange,admin);
         //todo handle the exceptions in setting the attributes
     }
+    private void registerAccount(HttpExchange exchange,Account account){
+        try {
+            account.register();
+        } catch (EmailAlreadyExistsException e) {
+            /// todo send json with the problem
+            sendResponse(exchange , emailExceptionJson());
+        }
+        catch (UsernameAlreadyExistsException e){
+            sendResponse(exchange,userNameExceptionJson());
+        }
+        catch (PasswordTooShortException e){
+            sendResponse(exchange , passwordExceptionJson());
+        }
+        catch (ValidationException e){
+
+        }
+    }
+    private void sendResponse(HttpExchange exchange,JSONObject jsonObject){
+        String response = jsonObject.toString();
+        try {
+            exchange.sendResponseHeaders(200, response.length());
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        } catch (IOException e) {
+            /// todo
+            e.printStackTrace();
+        }
+
+    }
     private Customer getCustomerFromJSON(){
-        String email= jsonObject.get("email").toString();
-        String username= jsonObject.get("username").toString();
-        String password= jsonObject.get("email").toString();
-        long userID = jsonObject.getLong("userID");
+        String email= getRequestJson.get("email").toString();
+        String username= getRequestJson.get("username").toString();
+        String password= getRequestJson.get("email").toString();
+        long userID = getRequestJson.getLong("userID");
         return new Customer(userID,username , email,password) ;
     }
     private Admin getAdminFromJSON(){
-        String email= jsonObject.get("email").toString();
-        String username= jsonObject.get("username").toString();
-        String password= jsonObject.get("email").toString();
-        long userID = jsonObject.getLong("userID");
+        String email= getRequestJson.get("email").toString();
+        String username= getRequestJson.get("username").toString();
+        String password= getRequestJson.get("email").toString();
+        long userID = getRequestJson.getLong("userID");
         return new Admin(userID,username , email,password) ;
     }
     private StoreOwner getStoreOwnerFromJSON(){
-        String email= jsonObject.get("email").toString();
-        String username= jsonObject.get("username").toString();
-        String password= jsonObject.get("email").toString();
-        long userID = jsonObject.getLong("userID");
+        String email= getRequestJson.get("email").toString();
+        String username= getRequestJson.get("username").toString();
+        String password= getRequestJson.get("email").toString();
+        long userID = getRequestJson.getLong("userID");
         return new StoreOwner(userID,username , email,password) ;
     }
+    private JSONObject emailExceptionJson(){
+        JSONObject json =  new JSONObject();
+        json.put("error" ,"true");
+        json.put("error_type" , "Email already exists");
+        return json;
+    }
+    private JSONObject userNameExceptionJson(){
+        JSONObject json =  new JSONObject();
+        json.put("error" ,"true");
+        json.put("error_type" , "username already exists");
+        return json;
+    }
+    private JSONObject passwordExceptionJson(){
+        JSONObject json =  new JSONObject();
+        json.put("error" ,"true");
+        json.put("error_type" , "Password already exists");
+        return json;
+    }
+
 
 }

@@ -22,6 +22,7 @@ public class DefaultParser implements HTTPExchangeParser {
         // Parse GET parameters
         params = new HashMap<>();
         String query = exchange.getRequestURI().getQuery();
+        if(query == null) query = "";
         for(String param : query.split("&")){
             String[] entry = param.split("=");
             if(entry.length > 1){
@@ -33,12 +34,8 @@ public class DefaultParser implements HTTPExchangeParser {
     }
 
     public String[] getURLpath(){
-        String path = "";
-        try {
-            path = new URL(this.exchange.getRequestURI().toString()).getPath();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        String path = this.exchange.getRequestURI().toString();
+        path = path.substring(1); // Remove '/' from prefix
         return path.split("/");
     }
 

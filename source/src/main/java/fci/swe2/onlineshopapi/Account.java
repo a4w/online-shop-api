@@ -1,10 +1,11 @@
 package fci.swe2.onlineshopapi;
 
 abstract class Account {
-    protected int userID;
+    protected long userID;
     protected String username;
     protected String email;
     protected String password;
+    protected RegistrationBehaviour registrationBehaviour;
 
     protected int getUserID(){
         return this.userID;

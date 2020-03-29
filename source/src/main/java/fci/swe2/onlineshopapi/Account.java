@@ -6,6 +6,9 @@ abstract class Account {
     protected String email;
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
+    Account(){
+
+    }
     Account(long userID , String username , String email , String password){
         this.userID = userID;
         this.email = email;

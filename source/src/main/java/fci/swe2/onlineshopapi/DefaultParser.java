@@ -8,7 +8,15 @@ public class DefaultParser implements HTTPExchangeParser {
 
     DefaultParser(HttpExchange exchange){}
 
-    public String[] getURLpath(){}
-    public String getParameter(String method, String key){}
-    public JSONObject parseBody(){}
+    public String[] getURLpath(){
+        return new String[0];
+    }
+
+    public String getParameter(String method, String key){
+        return new String();
+    }
+
+    public JSONObject parseBody(){
+        return new JSONObject();
+    }
 }

@@ -13,10 +13,12 @@ public class RepoFactory {
 
     @SuppressWarnings("unchecked")
     public static <T> Repository<T> getMapper(Class<T> clazz){
+        return (Repository<T>) new Object();
     }
 
     @SuppressWarnings("unchecked")
     public static <T> Repository<T> getMapper(Object object){
+        return (Repository<T>) new Object();
     }
 
 }

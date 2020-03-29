@@ -47,7 +47,7 @@ abstract class Account {
         return this.username;
     }
 
-    protected void register(){}
+    protected void register() throws ValidationException{}
 }
 
 

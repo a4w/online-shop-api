@@ -18,7 +18,14 @@ public class RegisterAPI implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         myParser = new DefaultParser(exchange);
         String []urlParameters=  myParser.getURLpath();
-        getRequestJson = myParser.parseBody();
+        try{
+            getRequestJson = myParser.parseBody();
+        }catch(Exception e){
+            JSONObject jobj = new JSONObject();
+            jobj.put("error", true);
+            jobj.put("message", "Malformed request");
+            sendResponse(exchange, jobj);
+        }
         if(urlParameters.length <2){
             /// todo error
             return;
@@ -43,23 +50,19 @@ public class RegisterAPI implements HttpHandler {
     private void registerCustomer(HttpExchange exchange){
         Customer customer = getCustomerFromJSON();
         registerAccount(exchange,customer);
-        //todo handle the exceptions in setting the attributes
     }
     private void registerStoreOwner(HttpExchange exchange){
         StoreOwner storeOwner = getStoreOwnerFromJSON();
         registerAccount(exchange,storeOwner);
-        //todo handle the exceptions in setting the attributes
     }
     private void registerAdmin(HttpExchange exchange){
         Admin admin = getAdminFromJSON();
         registerAccount(exchange,admin);
-        //todo handle the exceptions in setting the attributes
     }
     private void registerAccount(HttpExchange exchange,Account account){
         try {
             account.register();
         } catch (EmailAlreadyExistsException e) {
-            /// todo send json with the problem
             sendResponse(exchange , emailExceptionJson());
         }
         catch (UsernameAlreadyExistsException e){

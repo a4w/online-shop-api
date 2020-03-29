@@ -11,7 +11,7 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
     }
 
     public StoreOwner[] retrieveAll(){
-        return new StoreOwner[0];
+        return null;
     }
     public void store(StoreOwner obj){}
     public void update(StoreOwner obj){}

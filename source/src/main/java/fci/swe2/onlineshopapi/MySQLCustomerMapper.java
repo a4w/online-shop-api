@@ -51,14 +51,26 @@ public class MySQLCustomerMapper implements Repository<Customer> {
         throw new ObjectNotFoundException();
     }
 
-    public Customer[] retrieveAll(){
-        return null;
+    public Customer[] retrieveAll() throws SQLException {
+        PreparedStatement statement = dbConnection.prepareStatement("SELECT * FROM `Customer`");
+        PreparedStatement count = dbConnection.prepareStatement("SELECT COUNT(*) FROM `Customer`");
+        ResultSet rows = count.executeQuery();
+        rows.next();
+        Customer  arr [];
+        final  int COUNT = rows.getInt("COUNT(*)");
+        arr = new Customer [COUNT];
+        ResultSet result = statement.executeQuery();
+        int idx = 0;
+        while (result.next()){
+            arr[idx++] = createCustomerFromRow(result);
+        }
+        return arr;
     }
 
     public void store(Customer obj) throws ValidationException{
         try {
             System.out.println("Storing a user");
-            PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Customer` (`email`, `username`, `password`) VALUES (?, ?, ?)");
+            PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Customer` (id,`email`, `username`, `password`) VALUES (?, ?, ?, ?)");
             bindCustomer(obj, stmt);
             stmt.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
@@ -74,8 +86,31 @@ public class MySQLCustomerMapper implements Repository<Customer> {
             throw new ValidationException();
         }
     }
-    public void update(Customer obj){}
-    public void delete(Customer obj){}
+    public void update(Customer obj){
+        try {
+            PreparedStatement statement = dbConnection.prepareStatement("UPDATE Customer set email = ? , username = ? , password = ? " +
+                    "WHERE id = ?");
+            statement.setString(1, obj.getEmail());
+            statement.setString(2, obj.getUsername());
+            statement.setString(3, obj.getPassword());
+            statement.setLong(4, obj.getUserID());
+            statement.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+            //
+        }
+    }
+    public void delete(Customer obj){
+        try {
+            PreparedStatement statement = dbConnection.prepareStatement("DELETE FROM Customer WHERE id = ?");
+            statement.setLong(1, obj.getUserID());
+            statement.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 
     private Customer createCustomerFromRow(ResultSet result) throws SQLException{
         final long id = result.getLong("id");
@@ -86,8 +121,9 @@ public class MySQLCustomerMapper implements Repository<Customer> {
     }
 
     private void bindCustomer(Customer customer, PreparedStatement stmt) throws SQLException{
-        stmt.setString(1, customer.getEmail());
-        stmt.setString(2, customer.getUsername());
-        stmt.setString(3, customer.getPassword());
+        stmt.setLong(1,customer.getUserID());
+        stmt.setString(2, customer.getEmail());
+        stmt.setString(3, customer.getUsername());
+        stmt.setString(4, customer.getPassword());
     }
 }

@@ -49,6 +49,10 @@ abstract class Account {
         return this.username;
     }
 
+    protected String getPassword(){
+        return this.password;
+    }
+
     protected void register() throws ValidationException{
         this.registrationBehaviour.register(this);
     }

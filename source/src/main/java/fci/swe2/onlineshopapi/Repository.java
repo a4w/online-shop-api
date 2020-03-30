@@ -4,7 +4,7 @@ import fci.swe2.onlineshopapi.exceptions.*;
 
 public interface Repository<T> {
     public boolean exists(long id);
-    public long retrieve(long id) throws ObjectNotFoundException;
+    public T retrieve(long id) throws ObjectNotFoundException;
     public T[] retrieveAll();
     public void store(T obj) throws ValidationException;
     public void update(T obj) throws ValidationException;

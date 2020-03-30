@@ -14,12 +14,12 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
         return instance;
     }
 
-    public long exists(long id){
-        return 0;
+    public boolean exists(long id){
+        return false;
     }
 
-    public long retrieve(long id){
-        return 0;
+    public StoreOwner retrieve(long id){
+        return null;
     }
 
     public StoreOwner[] retrieveAll(){

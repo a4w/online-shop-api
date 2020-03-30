@@ -14,12 +14,12 @@ public class MySQLAdminMapper implements Repository<Admin> {
         return instance;
     }
 
-    public long exists(long id){
-        return 0;
+    public boolean exists(long id){
+        return false;
     }
 
-    public long retrieve(long id){
-        return 0;
+    public Admin retrieve(long id){
+        return null;
     }
 
     public Admin[] retrieveAll(){

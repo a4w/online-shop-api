@@ -48,9 +48,7 @@ public class RegisterAPI implements HttpHandler {
     }
 
     private void registerCustomer(HttpExchange exchange){
-        System.out.println("Getting customer from json");
         Customer customer = getCustomerFromJSON();
-        System.out.println("Got customer from json");
         registerAccount(exchange,customer);
     }
     private void registerStoreOwner(HttpExchange exchange){
@@ -63,9 +61,7 @@ public class RegisterAPI implements HttpHandler {
     }
     private void registerAccount(HttpExchange exchange,Account account){
         try {
-            System.out.println("Registering account");
             account.register();
-            System.out.println("Account registered");
         } catch (EmailAlreadyExistsException e) {
             sendResponse(exchange , emailExceptionJson());
         }

@@ -48,7 +48,9 @@ public class RegisterAPI implements HttpHandler {
     }
 
     private void registerCustomer(HttpExchange exchange){
+        System.out.println("Getting customer from json");
         Customer customer = getCustomerFromJSON();
+        System.out.println("Got customer from json");
         registerAccount(exchange,customer);
     }
     private void registerStoreOwner(HttpExchange exchange){
@@ -61,7 +63,9 @@ public class RegisterAPI implements HttpHandler {
     }
     private void registerAccount(HttpExchange exchange,Account account){
         try {
+            System.out.println("Registering account");
             account.register();
+            System.out.println("Account registered");
         } catch (EmailAlreadyExistsException e) {
             sendResponse(exchange , emailExceptionJson());
         }
@@ -91,9 +95,8 @@ public class RegisterAPI implements HttpHandler {
     private Customer getCustomerFromJSON(){
         String email= getRequestJson.get("email").toString();
         String username= getRequestJson.get("username").toString();
-        String password= getRequestJson.get("email").toString();
-        long userID = getRequestJson.getLong("userID");
-        return new Customer(userID,username , email,password) ;
+        String password= getRequestJson.get("password").toString();
+        return new Customer(0, username , email,password) ;
     }
     private Admin getAdminFromJSON(){
         String email= getRequestJson.get("email").toString();

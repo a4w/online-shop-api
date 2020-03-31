@@ -45,6 +45,7 @@ public class SerializerFactory{
       register(Admin.class, Type.JSON, new JsonAdminSerializer());
       register(StoreOwner.class, Type.JSON, new JsonStoreOwnerSerializer());
       register(UserFriendlyError.class, Type.JSON, new JsonUserMessageSerializer());
+      register(String.class, Type.JSON, new JsonCustomMessageSerializer());
   }
 
   static{

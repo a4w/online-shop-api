@@ -3,6 +3,12 @@ package fci.swe2.onlineshopapi;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import fci.swe2.onlineshopapi.dataWrappers.Serializer;
+import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
+import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory.Type;
+import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
+import fci.swe2.onlineshopapi.exceptions.MalformedRequestException;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -20,7 +26,7 @@ public abstract class API implements HttpHandler {
         try{
             this.requestBody = parser.parseBody();
         }catch(Exception e){
-            // TODO: Error occured
+            sendMalformedRequestError();
         }
     }
 
@@ -31,9 +37,14 @@ public abstract class API implements HttpHandler {
             os.write(str.getBytes());
             os.close();
         } catch (IOException e) {
-            /// TODO
             e.printStackTrace();
         }
+    }
+
+    protected void sendMalformedRequestError(){
+        UserFriendlyError error = new MalformedRequestException("Malformed request");
+        Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, Type.JSON);
+        sendResponse(serializer.serialize(error));
     }
 
 }

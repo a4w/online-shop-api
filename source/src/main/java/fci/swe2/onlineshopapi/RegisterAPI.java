@@ -22,8 +22,8 @@ public class RegisterAPI extends API {
 
         String[] urlParameters = parser.getURLpath();
 
-        if(urlParameters.length <2){
-            // TODO: MalformedRequestException
+        if(urlParameters.length < 2){
+            sendMalformedRequestError();
             return;
         }
 
@@ -39,7 +39,7 @@ public class RegisterAPI extends API {
                 this.registerStoreOwner();
                 break;
             default:
-                // TODO: MalformedRequestException
+                sendMalformedRequestError();
                 break;
         }
     }

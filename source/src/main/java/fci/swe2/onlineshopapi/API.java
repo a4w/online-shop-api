@@ -15,8 +15,8 @@ public abstract class API implements HttpHandler {
     abstract public void handle(HttpExchange exchange);
 
     void setParserExchange(HttpExchange exchange){
-        this.parser = new DefaultParser(exchange);
         this.exchange = exchange;
+        this.parser = new DefaultParser(exchange);
         try{
             this.requestBody = parser.parseBody();
         }catch(Exception e){

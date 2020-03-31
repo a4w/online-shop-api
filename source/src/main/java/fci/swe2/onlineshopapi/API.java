@@ -47,4 +47,9 @@ public abstract class API implements HttpHandler {
         sendResponse(serializer.serialize(error));
     }
 
+    protected void sendOkRequest(){
+        Serializer<String> serializer = SerializerFactory.getSerializer(String.class, Type.JSON);
+        sendResponse(serializer.serialize("Request completed successfully"));
+    }
+
 }

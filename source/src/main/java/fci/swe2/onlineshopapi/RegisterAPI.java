@@ -4,9 +4,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import fci.swe2.onlineshopapi.dataWrappers.CustomerWrapper;
 import fci.swe2.onlineshopapi.dataWrappers.JsonCustomerWrapper;
-import fci.swe2.onlineshopapi.exceptions.EmailAlreadyExistsException;
-import fci.swe2.onlineshopapi.exceptions.PasswordTooShortException;
-import fci.swe2.onlineshopapi.exceptions.UsernameAlreadyExistsException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 import org.json.JSONObject;
 
@@ -65,17 +62,8 @@ public class RegisterAPI implements HttpHandler {
     private void registerAccount(HttpExchange exchange,Account account){
         try {
             account.register();
-        } catch (EmailAlreadyExistsException e) {
-            sendResponse(exchange , emailExceptionJson());
-        }
-        catch (UsernameAlreadyExistsException e){
-            sendResponse(exchange,userNameExceptionJson());
-        }
-        catch (PasswordTooShortException e){
-            sendResponse(exchange , passwordExceptionJson());
-        }
-        catch (ValidationException e){
-
+        }catch (ValidationException e){
+            // All are one now
         }
     }
     private void sendResponse(HttpExchange exchange,JSONObject jsonObject){

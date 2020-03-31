@@ -3,6 +3,11 @@ package fci.swe2.onlineshopapi.dataWrappers;
 import java.util.HashMap;
 import java.util.Map;
 
+import fci.swe2.onlineshopapi.Admin;
+import fci.swe2.onlineshopapi.Customer;
+import fci.swe2.onlineshopapi.StoreOwner;
+import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
+
 public class SerializerFactory{
   public enum Type{
     JSON, XML
@@ -35,7 +40,12 @@ public class SerializerFactory{
 
   private static Map<MapKey, Object> map = new HashMap<>();
 
-  public static void init(){ }
+  public static void init(){
+      register(Customer.class, Type.JSON, new JsonCustomerSerializer());
+      register(Admin.class, Type.JSON, new JsonAdminSerializer());
+      register(StoreOwner.class, Type.JSON, new JsonStoreOwnerSerializer());
+      register(UserFriendlyError.class, Type.JSON, new JsonUserMessageSerializer());
+  }
 
   static{
       init();

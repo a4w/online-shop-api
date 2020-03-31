@@ -26,7 +26,7 @@ public class RegisterAPI implements HttpHandler {
         }catch(Exception e){
             JSONObject jobj = new JSONObject();
             jobj.put("error", true);
-            jobj.put("message", "Malformed request");
+            jobj.put("error_type", "Malformed request");
             sendResponse(exchange, jobj);
         }
         if(urlParameters.length <2){

@@ -55,16 +55,18 @@ public class RegisterAPI implements HttpHandler {
         Customer customer = customerWrapper.unserialize(getRequestJson.toString());
         registerAccount(exchange,customer);
     }
-    /*
+
     private void registerStoreOwner(HttpExchange exchange){
-        StoreOwner storeOwner = getStoreOwnerFromJSON();
-        registerAccount(exchange,storeOwner);
+        Serializer<StoreOwner> storeOwnerSerializer = SerializerFactory.getSerializer(StoreOwner.class , Type.JSON);
+        StoreOwner storeOwner =  storeOwnerSerializer.unserialize(getRequestJson.toString());
+        registerAccount(exchange , storeOwner);
     }
     private void registerAdmin(HttpExchange exchange){
-        Admin admin = getAdminFromJSON();
+        Serializer<Admin> adminSerializer = SerializerFactory.getSerializer(Admin.class , Type.JSON);
+        Admin admin = adminSerializer.unserialize(getRequestJson.toString());
         registerAccount(exchange,admin);
     }
-    */
+
     private void registerAccount(HttpExchange exchange,Account account){
         try {
             account.register();

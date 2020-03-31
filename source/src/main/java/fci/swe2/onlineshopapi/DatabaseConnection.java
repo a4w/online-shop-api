@@ -8,7 +8,7 @@ class DatabaseConnection{
     final String DB_HOST = "localhost";
     final String DB_NAME = "online-shop-api";
     final String DB_USER = "root";
-    final String DB_PASS = "12341234";
+    final String DB_PASS = "Socrat_1234";
 
     private static DatabaseConnection instance = null;
 

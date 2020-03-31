@@ -8,10 +8,10 @@ abstract class Account {
     protected String email;
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
-    Account(){
+    public Account(){
         this.registrationBehaviour = new DefaultRegistration();
     }
-    Account(long userID , String username , String email , String password){
+    public Account(long userID , String username , String email , String password){
         this.registrationBehaviour = new DefaultRegistration();
         this.userID = userID;
         this.email = email;

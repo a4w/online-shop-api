@@ -1,7 +1,7 @@
 package fci.swe2.onlineshopapi;
 
 public class StoreOwner extends Account{
-    StoreOwner(long userID, String username, String email, String password) {
+    public StoreOwner(long userID, String username, String email, String password) {
         super(userID, username, email, password);
     }
 

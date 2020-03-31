@@ -5,11 +5,6 @@ import com.sun.net.httpserver.HttpHandler;
 
 import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.OutputStream;
-
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory.Type;
 import fci.swe2.onlineshopapi.dataWrappers.Serializer;
@@ -65,6 +60,7 @@ public class RegisterAPI extends API {
     private void registerAccount(Account account){
         try {
             account.register();
+            sendOkRequest();
         }catch (ValidationException e){
             Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, Type.JSON);
             sendResponse(serializer.serialize(e));

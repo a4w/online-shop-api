@@ -16,6 +16,12 @@ public class JsonCustomerWrapper implements CustomerWrapper{
 
     @Override
     public String getData(Customer customer) {
-        return null;
+        ///todo
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email" , customer.getEmail());
+        jsonObject.put("password" , customer.getPassword());
+        jsonObject.put("username" , customer.getUsername());
+        jsonObject.put("userID" , customer.getUserID());
+        return jsonObject.toString();
     }
 }

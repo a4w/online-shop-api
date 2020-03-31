@@ -43,7 +43,7 @@ public class DefaultParser implements HTTPExchangeParser {
         return this.params.get(key);
     }
 
-    public JSONObject parseBody() throws Exception{
+    public String parseBody() throws Exception{
         StringBuilder buf = new StringBuilder(512);
 
         InputStreamReader isr = new InputStreamReader(exchange.getRequestBody(), "utf-8");
@@ -56,6 +56,6 @@ public class DefaultParser implements HTTPExchangeParser {
         br.close();
         isr.close();
 
-        return new JSONObject(buf.toString());
+        return buf.toString();
     }
 }

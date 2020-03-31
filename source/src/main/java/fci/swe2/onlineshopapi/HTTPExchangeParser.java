@@ -5,5 +5,5 @@ import org.json.JSONObject;
 public interface HTTPExchangeParser {
     public String[] getURLpath();
     public String getParameter(String key);
-    public JSONObject parseBody() throws Exception;
+    public String parseBody() throws Exception;
 }

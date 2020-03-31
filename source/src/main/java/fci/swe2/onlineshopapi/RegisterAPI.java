@@ -2,13 +2,17 @@ package fci.swe2.onlineshopapi;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import fci.swe2.onlineshopapi.dataWrappers.CustomerWrapper;
+
 import fci.swe2.onlineshopapi.dataWrappers.JsonCustomerWrapper;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.OutputStream;
+
+import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
+import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory.Type;
+import fci.swe2.onlineshopapi.dataWrappers.Serializer;
 
 public class RegisterAPI implements HttpHandler {
     HTTPExchangeParser myParser = null;
@@ -35,10 +39,10 @@ public class RegisterAPI implements HttpHandler {
                 this.registerCustomer(exchange);
                 break;
             case "admin":
-                this.registerAdmin(exchange);
+                //this.registerAdmin(exchange);
                 break;
             case "storeowner":
-                this.registerStoreOwner(exchange);
+                //this.registerStoreOwner(exchange);
                 break;
             default:
                 ///todo
@@ -47,10 +51,11 @@ public class RegisterAPI implements HttpHandler {
     }
 
     private void registerCustomer(HttpExchange exchange){
-        CustomerWrapper customerWrapper = new JsonCustomerWrapper(); /// todo this is code to implementation we need a solution
-        Customer customer = customerWrapper.getCustomer(getRequestJson.toString());
+        Serializer<Customer> customerWrapper = SerializerFactory.getSerializer(Customer.class, Type.JSON); // code to implementation we need a solution
+        Customer customer = customerWrapper.unserialize(getRequestJson.toString());
         registerAccount(exchange,customer);
     }
+    /*
     private void registerStoreOwner(HttpExchange exchange){
         StoreOwner storeOwner = getStoreOwnerFromJSON();
         registerAccount(exchange,storeOwner);
@@ -59,6 +64,7 @@ public class RegisterAPI implements HttpHandler {
         Admin admin = getAdminFromJSON();
         registerAccount(exchange,admin);
     }
+    */
     private void registerAccount(HttpExchange exchange,Account account){
         try {
             account.register();

@@ -91,12 +91,6 @@ public class RegisterAPI implements HttpHandler {
         }
 
     }
-    private Customer getCustomerFromJSON(){
-        String email= getRequestJson.get("email").toString();
-        String username= getRequestJson.get("username").toString();
-        String password= getRequestJson.get("password").toString();
-        return new Customer(0, username , email,password) ;
-    }
     private Admin getAdminFromJSON(){
         String email= getRequestJson.get("email").toString();
         String username= getRequestJson.get("username").toString();

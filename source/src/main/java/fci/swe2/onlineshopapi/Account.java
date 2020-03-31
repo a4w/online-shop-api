@@ -38,19 +38,19 @@ abstract class Account {
         this.username = username;
     }
 
-    protected long getUserID(){
+    public long getUserID(){
         return this.userID;
     }
 
-    protected String getEmail(){
+    public String getEmail(){
         return this.email;
     }
 
-    protected String getUsername(){
+    public String getUsername(){
         return this.username;
     }
 
-    protected String getPassword(){
+    public String getPassword(){
         return this.password;
     }
 

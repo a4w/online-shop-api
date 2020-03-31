@@ -3,7 +3,7 @@ package fci.swe2.onlineshopapi.dataWrappers;
 import java.util.HashMap;
 import java.util.Map;
 
-class SerializerFactory{
+public class SerializerFactory{
   public enum Type{
     JSON, XML
   }

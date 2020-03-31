@@ -98,39 +98,4 @@ public class RegisterAPI implements HttpHandler {
             e.printStackTrace();
         }
     }
-    private Admin getAdminFromJSON(){
-        String email= getRequestJson.get("email").toString();
-        String username= getRequestJson.get("username").toString();
-        String password= getRequestJson.get("email").toString();
-        long userID = getRequestJson.getLong("userID");
-        return new Admin(userID,username , email,password) ;
-    }
-    private StoreOwner getStoreOwnerFromJSON(){
-        String email= getRequestJson.get("email").toString();
-        String username= getRequestJson.get("username").toString();
-        String password= getRequestJson.get("email").toString();
-        long userID = getRequestJson.getLong("userID");
-        return new StoreOwner(userID,username , email,password) ;
-    }
-    /// to be removed
-    private JSONObject emailExceptionJson(){
-        JSONObject json =  new JSONObject();
-        json.put("error" ,"true");
-        json.put("error_type" , "Email already exists");
-        return json;
-    }
-    private JSONObject userNameExceptionJson(){
-        JSONObject json =  new JSONObject();
-        json.put("error" ,"true");
-        json.put("error_type" , "username already exists");
-        return json;
-    }
-    private JSONObject passwordExceptionJson(){
-        JSONObject json =  new JSONObject();
-        json.put("error" ,"true");
-        json.put("error_type" , "Password already exists");
-        return json;
-    }
-
-
 }

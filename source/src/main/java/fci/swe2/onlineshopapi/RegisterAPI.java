@@ -3,7 +3,7 @@ package fci.swe2.onlineshopapi;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import fci.swe2.onlineshopapi.dataWrappers.JsonCustomerWrapper;
+import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 import org.json.JSONObject;
 
@@ -69,7 +69,8 @@ public class RegisterAPI implements HttpHandler {
         try {
             account.register();
         }catch (ValidationException e){
-            // All are one now
+            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, Type.JSON);
+            sendResponse(exchange, serializer.serialize(e));
         }
     }
     private void sendResponse(HttpExchange exchange,JSONObject jsonObject){
@@ -83,7 +84,17 @@ public class RegisterAPI implements HttpHandler {
             /// todo
             e.printStackTrace();
         }
-
+    }
+    private void sendResponse(HttpExchange exchange,String str){
+        try {
+            exchange.sendResponseHeaders(200, str.length());
+            OutputStream os = exchange.getResponseBody();
+            os.write(str.getBytes());
+            os.close();
+        } catch (IOException e) {
+            /// todo
+            e.printStackTrace();
+        }
     }
     private Admin getAdminFromJSON(){
         String email= getRequestJson.get("email").toString();

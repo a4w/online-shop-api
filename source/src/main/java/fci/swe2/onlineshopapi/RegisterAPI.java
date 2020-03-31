@@ -2,6 +2,8 @@ package fci.swe2.onlineshopapi;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import fci.swe2.onlineshopapi.dataWrappers.CustomerWrapper;
+import fci.swe2.onlineshopapi.dataWrappers.JsonCustomerWrapper;
 import fci.swe2.onlineshopapi.exceptions.EmailAlreadyExistsException;
 import fci.swe2.onlineshopapi.exceptions.PasswordTooShortException;
 import fci.swe2.onlineshopapi.exceptions.UsernameAlreadyExistsException;
@@ -32,7 +34,7 @@ public class RegisterAPI implements HttpHandler {
         }
         String userType= urlParameters[1]; /// register/user , register/admin , register/storeowner
         switch (userType){
-            case "user":
+            case "customer":
                 this.registerCustomer(exchange);
                 break;
             case "admin":
@@ -48,7 +50,8 @@ public class RegisterAPI implements HttpHandler {
     }
 
     private void registerCustomer(HttpExchange exchange){
-        Customer customer = getCustomerFromJSON();
+        CustomerWrapper customerWrapper = new JsonCustomerWrapper(); /// todo this is code to implementation we need a solution
+        Customer customer = customerWrapper.getCustomer(getRequestJson.toString());
         registerAccount(exchange,customer);
     }
     private void registerStoreOwner(HttpExchange exchange){
@@ -108,6 +111,7 @@ public class RegisterAPI implements HttpHandler {
         long userID = getRequestJson.getLong("userID");
         return new StoreOwner(userID,username , email,password) ;
     }
+    /// to be removed
     private JSONObject emailExceptionJson(){
         JSONObject json =  new JSONObject();
         json.put("error" ,"true");

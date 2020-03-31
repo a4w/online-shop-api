@@ -15,7 +15,7 @@ public class JsonAdminSerializer implements Serializer<Admin> {
     }
 
     @Override
-    public Admin unserizlize(String str) {
+    public Admin unserialize(String str) {
         JSONObject jsonObject = new JSONObject(str);
         String email= jsonObject.get("email").toString();
         String username= jsonObject.get("username").toString();

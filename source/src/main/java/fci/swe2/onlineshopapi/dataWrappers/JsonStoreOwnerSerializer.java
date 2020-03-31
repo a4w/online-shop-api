@@ -14,7 +14,7 @@ public class JsonStoreOwnerSerializer implements Serializer<StoreOwner> {
     }
 
     @Override
-    public StoreOwner unserizlize(String str) {
+    public StoreOwner unserialize(String str) {
         JSONObject jsonObject = new JSONObject(str);
         String email= jsonObject.get("email").toString();
         String username= jsonObject.get("username").toString();

@@ -16,7 +16,7 @@ public class JsonCustomerSerializer implements Serializer<Customer> {
     }
 
     @Override
-    public Customer unserizlize(String str) {
+    public Customer unserialize(String str) {
         JSONObject jsonObject = new JSONObject(str);
         String email= jsonObject.get("email").toString();
         String username= jsonObject.get("username").toString();

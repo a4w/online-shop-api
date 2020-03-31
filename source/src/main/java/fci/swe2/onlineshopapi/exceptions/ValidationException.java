@@ -5,7 +5,7 @@ public class ValidationException extends Exception implements UserFriendlyError{
 
     private String userFriendlyMessage;
 
-    ValidationException(String userFriendlyMessage){
+    public ValidationException(String userFriendlyMessage){
         this.userFriendlyMessage = userFriendlyMessage;
     }
 

@@ -66,12 +66,12 @@ public class MySQLCustomerMapper implements Repository<Customer> {
             final String message = e.getMessage();
             // TODO: Maybe find a better way to handle this (this may cause wrong error messages if the value contains a key word)
             if(message.contains("email")){
-                throw new EmailAlreadyExistsException();
+                throw new ValidationException("Email already exists");
             }else if(message.contains("username")){
-                throw new UsernameAlreadyExistsException();
+                throw new ValidationException("Username already exists");
             }
         } catch (SQLException e){
-            throw new ValidationException();
+            throw new ValidationException("An error occured please try again later");
         }
     }
     public void update(Customer obj){}

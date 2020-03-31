@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-import fci.swe2.onlineshopapi.exceptions.EmailAlreadyExistsException;
 import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
-import fci.swe2.onlineshopapi.exceptions.UsernameAlreadyExistsException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
 public class MySQLCustomerMapper implements Repository<Customer> {

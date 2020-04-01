@@ -55,12 +55,11 @@ public class MySQLCustomerMapper implements Repository<Customer> {
 
     public void store(Customer obj) throws ValidationException{
         try {
-            System.out.println("Storing a user");
             PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Customer` (`email`, `username`, `password`) VALUES (?, ?, ?)");
             bindCustomer(obj, stmt);
             stmt.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
             final String message = e.getMessage();
             // TODO: Maybe find a better way to handle this (this may cause wrong error messages if the value contains a key word)
             if(message.contains("email")){

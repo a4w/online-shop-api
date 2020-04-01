@@ -29,7 +29,6 @@ public abstract class API implements HttpHandler {
         try{
             this.requestBody = parser.parseBody();
         }catch(Exception e){
-            System.out.println("Malformed ");
             sendMalformedRequestError();
             throw e;
         }
@@ -42,7 +41,6 @@ public abstract class API implements HttpHandler {
             // Add other return types here if required
 
             default:
-                System.out.println("Content ");
                 sendWrongContentTypeError();
                 throw new Exception(); // To be catched in caller
         }

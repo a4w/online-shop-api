@@ -34,15 +34,21 @@ public abstract class API implements HttpHandler {
         }
         Headers headers = exchange.getRequestHeaders();
         String contentType = headers.getFirst("Content-Type");
-        switch(contentType){
-            case "application/json":
-                this.responseType = Type.JSON;
-                break;
-            // Add other return types here if required
+        try {
+            switch (contentType) {
+                case "application/json":
+                    this.responseType = Type.JSON;
+                    break;
+                // Add other return types here if required
 
-            default:
-                sendWrongContentTypeError();
-                throw new Exception(); // To be catched in caller
+                default:
+                    sendWrongContentTypeError();
+                    throw new Exception(); // To be catched in caller
+            }
+        }
+        catch (Exception e){
+            sendWrongContentTypeError();
+            throw e;
         }
     }
 

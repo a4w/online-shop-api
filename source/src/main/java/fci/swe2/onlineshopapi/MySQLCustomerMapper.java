@@ -53,7 +53,7 @@ public class MySQLCustomerMapper implements Repository<Customer> {
     public Customer[] retrieveAll(){
         ArrayList<Customer> customers = new ArrayList<>();
         try{
-            PreparedStatement stmt = dbConnection.prepareStatement("Select * from `Custoemr`");
+            PreparedStatement stmt = dbConnection.prepareStatement("Select * from `Customer`");
             ResultSet result = stmt.executeQuery();
             while(result.next()){
                 long ID = result.getLong(1);

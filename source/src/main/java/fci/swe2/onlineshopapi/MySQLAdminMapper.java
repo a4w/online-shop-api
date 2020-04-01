@@ -16,7 +16,7 @@ public class MySQLAdminMapper implements Repository<Admin> {
     private Connection dbConnection;
 
     private MySQLAdminMapper(){
-        // Initialize stuff
+        dbConnection = DatabaseConnection.getConnection();
     }
 
     public static MySQLAdminMapper getInstance(){

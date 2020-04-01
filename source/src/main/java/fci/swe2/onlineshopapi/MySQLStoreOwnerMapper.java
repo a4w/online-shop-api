@@ -36,7 +36,7 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
     public StoreOwner[] retrieveAll(){
         ArrayList<StoreOwner> owners = new ArrayList<>();
         try{
-            PreparedStatement stmt = dbConnection.prepareStatement("Select * from StoreOwner");
+            PreparedStatement stmt = dbConnection.prepareStatement("Select * from `StoreOwner`");
             ResultSet result = stmt.executeQuery();
             while(result.next()){
                 long ID = result.getLong(1);

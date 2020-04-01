@@ -1,5 +1,6 @@
 package fci.swe2.onlineshopapi;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -16,6 +17,7 @@ public abstract class API implements HttpHandler {
     HTTPExchangeParser parser = null;
     HttpExchange exchange = null;
     String requestBody = null;
+    SerializerFactory.Type responseType = Type.JSON;
 
     @Override
     abstract public void handle(HttpExchange exchange);
@@ -25,6 +27,16 @@ public abstract class API implements HttpHandler {
         this.parser = new DefaultParser(exchange);
         try{
             this.requestBody = parser.parseBody();
+            Headers headers = exchange.getRequestHeaders();
+            String contentType = headers.getFirst("Content-Type");
+            switch(contentType){
+                case "application/json":
+                default:
+                    this.responseType = Type.JSON;
+                    break;
+                // Add other return types here if required
+            }
+
         }catch(Exception e){
             sendMalformedRequestError();
         }

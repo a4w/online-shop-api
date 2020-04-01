@@ -55,6 +55,9 @@ abstract class Account {
     }
 
     protected void register() throws ValidationException{
+        // Validate password
+        if(this.password.length() < 8)
+            throw new ValidationException("Passwords must be atleast 8 charachter");
         this.registrationBehaviour.register(this);
     }
 }

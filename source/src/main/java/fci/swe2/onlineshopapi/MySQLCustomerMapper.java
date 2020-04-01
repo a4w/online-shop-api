@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
 
 import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
@@ -50,16 +51,30 @@ public class MySQLCustomerMapper implements Repository<Customer> {
     }
 
     public Customer[] retrieveAll(){
-        return null;
+        System.out.println("Retrieving all Admins");
+        PreparedStatement stmt = dbConnection.prepareStatement("Select * from Customer");
+        ResultSet result = stmt.executeQuery();
+        ArrayList customers = new ArrayList();
+        int i=0;
+        while(result.next){
+            long ID = result.getLong(1);
+            String username = result.getString(2);
+            String email = result.getString(3);
+            String password = result.getString(4);
+            Customer ob = new Admin(ID, username, email, password);
+            customers.add(ob);
+        }
+        return customers;
     }
 
     public void store(Customer obj) throws ValidationException{
         try {
+            System.out.println("Storing a user");
             PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Customer` (`email`, `username`, `password`) VALUES (?, ?, ?)");
             bindCustomer(obj, stmt);
             stmt.executeUpdate();
         } catch (SQLIntegrityConstraintViolationException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
             final String message = e.getMessage();
             // TODO: Maybe find a better way to handle this (this may cause wrong error messages if the value contains a key word)
             if(message.contains("email")){

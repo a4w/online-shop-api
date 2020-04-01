@@ -22,7 +22,7 @@ public class RegisterAPI extends API {
 
         String[] urlParameters = parser.getURLpath();
 
-        if(urlParameters.length < 2){
+        if(urlParameters.length != 2){
             sendMalformedRequestError();
             return;
         }

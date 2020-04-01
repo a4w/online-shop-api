@@ -13,7 +13,12 @@ public class RegisterAPI extends API {
 
     @Override
     public void handle(HttpExchange exchange){
-        this.setParserExchange(exchange);
+        try{
+            this.setParserExchange(exchange);
+        }catch(Exception e){
+            // Do nothing
+            return;
+        }
 
         String[] urlParameters = parser.getURLpath();
 
@@ -40,19 +45,19 @@ public class RegisterAPI extends API {
     }
 
     private void registerCustomer(){
-        Serializer<Customer> customerWrapper = SerializerFactory.getSerializer(Customer.class, Type.JSON);
+        Serializer<Customer> customerWrapper = SerializerFactory.getSerializer(Customer.class, this.responseType);
         Customer customer = customerWrapper.unserialize(this.requestBody);
         registerAccount(customer);
     }
 
     private void registerStoreOwner(){
-        Serializer<StoreOwner> storeOwnerSerializer = SerializerFactory.getSerializer(StoreOwner.class , Type.JSON);
+        Serializer<StoreOwner> storeOwnerSerializer = SerializerFactory.getSerializer(StoreOwner.class , this.responseType);
         StoreOwner storeOwner =  storeOwnerSerializer.unserialize(this.requestBody);
         registerAccount(storeOwner);
     }
 
     private void registerAdmin(){
-        Serializer<Admin> adminSerializer = SerializerFactory.getSerializer(Admin.class , Type.JSON);
+        Serializer<Admin> adminSerializer = SerializerFactory.getSerializer(Admin.class , this.responseType);
         Admin admin = adminSerializer.unserialize(this.requestBody);
         registerAccount(admin);
     }
@@ -62,7 +67,7 @@ public class RegisterAPI extends API {
             account.register();
             sendOkRequest();
         }catch (ValidationException e){
-            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, Type.JSON);
+            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
             sendResponse(serializer.serialize(e));
         }
     }

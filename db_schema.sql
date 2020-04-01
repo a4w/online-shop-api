@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS `online-shop-api`;
 
 USE `online-shop-api`;
 
-CREATE TABLE `Customer` (
+CREATE TABLE IF NOT EXISTS `Customer` (
     `id` INT AUTO_INCREMENT,
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `username` VARCHAR(50) NOT NULL UNIQUE,
@@ -12,7 +12,7 @@ CREATE TABLE `Customer` (
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `StoreOwner` (
+CREATE TABLE IF NOT EXISTS `StoreOwner` (
     `id` INT AUTO_INCREMENT,
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `username` VARCHAR(50) NOT NULL UNIQUE,
@@ -21,7 +21,7 @@ CREATE TABLE `StoreOwner` (
     PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `Admin` (
+CREATE TABLE IF NOT EXISTS `Admin` (
     `id` INT AUTO_INCREMENT,
     `email` VARCHAR(255) NOT NULL UNIQUE,
     `username` VARCHAR(50) NOT NULL UNIQUE,

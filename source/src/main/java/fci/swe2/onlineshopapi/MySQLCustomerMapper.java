@@ -51,20 +51,21 @@ public class MySQLCustomerMapper implements Repository<Customer> {
     }
 
     public Customer[] retrieveAll(){
-        System.out.println("Retrieving all Admins");
-        PreparedStatement stmt = dbConnection.prepareStatement("Select * from Customer");
-        ResultSet result = stmt.executeQuery();
-        ArrayList customers = new ArrayList();
-        int i=0;
-        while(result.next){
-            long ID = result.getLong(1);
-            String username = result.getString(2);
-            String email = result.getString(3);
-            String password = result.getString(4);
-            Customer ob = new Admin(ID, username, email, password);
-            customers.add(ob);
-        }
-        return customers;
+        ArrayList<Customer> customers = new ArrayList<>();
+        try{
+            PreparedStatement stmt = dbConnection.prepareStatement("Select * from `Custoemr`");
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                long ID = result.getLong(1);
+                String username = result.getString(2);
+                String email = result.getString(3);
+                String password = result.getString(4);
+                Customer ob = new Customer(ID, username, email, password);
+                customers.add(ob);
+            }
+        }catch(SQLException e){ }
+        Customer[] customersa = new Customer[customers.size()];
+        return customers.toArray(customersa);
     }
 
     public void store(Customer obj) throws ValidationException{

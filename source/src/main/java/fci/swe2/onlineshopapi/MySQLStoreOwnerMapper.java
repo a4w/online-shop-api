@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
+import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
+import fci.swe2.onlineshopapi.exceptions.ValidationException;
+
 public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
 
     private static MySQLStoreOwnerMapper instance = null;
+    private Connection dbConnection;
 
     private MySQLStoreOwnerMapper(){
         dbConnection = DatabaseConnection.getConnection();
@@ -30,21 +34,23 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
     }
 
     public StoreOwner[] retrieveAll(){
-        System.out.println("Retrieving all store owners");
-        PreparedStatement stmt = dbConnection.prepareStatement("Select * from StoreOwner");
-        ResultSet result = stmt.executeQuery();
-        ArrayList owners = new ArrayList();
-        int i=0;
-        while(result.next){
-            long ID = result.getLong(1);
-            String username = result.getString(2);
-            String email = result.getString(3);
-            String password = result.getString(4);
-            StoreOwner ob = new StoreOwner(ID, username, email, password);
-            owners.add(ob);
-        }
-        return owners;
+        ArrayList<StoreOwner> owners = new ArrayList<>();
+        try{
+            PreparedStatement stmt = dbConnection.prepareStatement("Select * from StoreOwner");
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                long ID = result.getLong(1);
+                String username = result.getString(2);
+                String email = result.getString(3);
+                String password = result.getString(4);
+                StoreOwner ob = new StoreOwner(ID, username, email, password);
+                owners.add(ob);
+            }
+        }catch(SQLException e){ }
+        StoreOwner[] sowners = new StoreOwner[owners.size()];
+        return owners.toArray(sowners);
     }
+
     public void store(StoreOwner obj) throws ValidationException{
         try {
             System.out.println("Storing a user");

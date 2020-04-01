@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
+import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
+import fci.swe2.onlineshopapi.exceptions.ValidationException;
+
 public class MySQLAdminMapper implements Repository<Admin> {
 
     private static MySQLAdminMapper instance = null;
+    private Connection dbConnection;
 
     private MySQLAdminMapper(){
         // Initialize stuff
@@ -30,25 +34,25 @@ public class MySQLAdminMapper implements Repository<Admin> {
     }
 
     public Admin[] retrieveAll(){
-        System.out.println("Retrieving all Admins");
-        PreparedStatement stmt = dbConnection.prepareStatement("Select * from Admin");
-        ResultSet result = stmt.executeQuery();
-        ArrayList admins = new ArrayList();
-        int i=0;
-        while(result.next){
-            long ID = result.getLong(1);
-            String username = result.getString(2);
-            String email = result.getString(3);
-            String password = result.getString(4);
-            Admin ob = new Admin(ID, username, email, password);
-            admins.add(ob);
-        }
-        return admins;
+        ArrayList<Admin> admins = new ArrayList<>();
+        try{
+            PreparedStatement stmt = dbConnection.prepareStatement("Select * from `Admin`");
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                long ID = result.getLong(1);
+                String username = result.getString(2);
+                String email = result.getString(3);
+                String password = result.getString(4);
+                Admin admin = new Admin(ID, username, email, password);
+                admins.add(admin);
+            }
+        }catch(SQLException e){ }
+        Admin[] adminsa = new Admin[admins.size()];
+        return admins.toArray(adminsa);
     }
 
-    public void store(Admin obj){
+    public void store(Admin obj) throws ValidationException{
         try {
-            System.out.println("Storing a user");
             PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Admin` (`email`, `username`, `password`) VALUES (?, ?, ?)");
             bindAdmin(obj, stmt);
             stmt.executeUpdate();

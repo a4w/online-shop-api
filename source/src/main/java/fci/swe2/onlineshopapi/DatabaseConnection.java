@@ -8,7 +8,7 @@ class DatabaseConnection{
     final String DB_HOST = "localhost";
     final String DB_NAME = "online-shop-api";
     final String DB_USER = "root";
-    final String DB_PASS = "Socrat_1234";
+    final String DB_PASS = "12341234";
 
     private static DatabaseConnection instance = null;
 
@@ -16,7 +16,7 @@ class DatabaseConnection{
 
     private DatabaseConnection(){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection("jdbc:mysql://" + DB_HOST + "/" + DB_NAME + "?user=" + DB_USER + "&password=" + DB_PASS);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

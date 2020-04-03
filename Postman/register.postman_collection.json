@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "c5b02dfe-5107-4776-af03-025055e6b225",
+		"name": "register",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register/customer",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"email\" : \"ahmedha1111@gmail.com\",\n\t\"username\" : \"ahmraway\",\n\t\"password\" : \"123456111\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/register/customer",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register/admin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"email\" : \"ahmedhanfy11111@gmail.com\",\n\t\"username\" : \"ahmeddraway\",\n\t\"password\" : \"1211134561\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/register/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register/storeowner",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"email\" : \"ahmedhanfy11111@gmail.com\",\n\t\"username\" : \"ahmeddraway\",\n\t\"password\" : \"1232224561\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8000/register/storeowner",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"register",
+						"storeowner"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -92,4 +92,17 @@ public class MySQLAdminMapper implements Repository<Admin>,AccountRepository<Adm
     public Admin findByToken(Admin obj) {
         return null;
     }
+
+    @Override
+    public void updateToken(Admin obj, String token) {
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("UPDATE `Admin` set `token` = ? where `username` = ?");
+            stmt.setString(1,token);
+            stmt.setString(2,obj.getUsername());
+            stmt.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 }

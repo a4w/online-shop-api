@@ -93,4 +93,17 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>,AccountRepo
     public StoreOwner findByToken(StoreOwner obj) {
         return null;
     }
+
+    @Override
+    public void updateToken(StoreOwner obj, String token) {
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("UPDATE `StoreOwner` set `token` = ? where `username` = ?");
+            stmt.setString(1,token);
+            stmt.setString(2,obj.getUsername());
+            stmt.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 }

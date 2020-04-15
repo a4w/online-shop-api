@@ -118,4 +118,17 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
     public Customer findByToken(Customer obj) {
         return null;
     }
+
+    @Override
+    public void updateToken(Customer obj, String token) {
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("UPDATE `Customer` set `token` = ? where `username` = ?");
+            stmt.setString(1,token);
+            stmt.setString(2,obj.getUsername());
+            stmt.executeUpdate();
+        }
+        catch (SQLException exception){
+            exception.printStackTrace();
+        }
+    }
 }

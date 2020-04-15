@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
-public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
+public class MySQLStoreOwnerMapper implements Repository<StoreOwner>,AccountRepository<StoreOwner> {
 
     private static MySQLStoreOwnerMapper instance = null;
     private Connection dbConnection;
@@ -77,5 +77,20 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner> {
         stmt.setString(1, owner.getEmail());
         stmt.setString(2, owner.getUsername());
         stmt.setString(3, owner.getPassword());
+    }
+
+    @Override
+    public StoreOwner findByUsername(StoreOwner obj) {
+        return null;
+    }
+
+    @Override
+    public StoreOwner findByEmail(StoreOwner obj) {
+        return null;
+    }
+
+    @Override
+    public StoreOwner findByToken(StoreOwner obj) {
+        return null;
     }
 }

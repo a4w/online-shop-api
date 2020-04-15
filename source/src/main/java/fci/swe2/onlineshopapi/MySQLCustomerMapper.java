@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
-public class MySQLCustomerMapper implements Repository<Customer> {
+public class MySQLCustomerMapper implements Repository<Customer>, AccountRepository<Customer> {
     private static MySQLCustomerMapper instance = null;
     private Connection dbConnection;
 
@@ -102,5 +102,20 @@ public class MySQLCustomerMapper implements Repository<Customer> {
         stmt.setString(1, customer.getEmail());
         stmt.setString(2, customer.getUsername());
         stmt.setString(3, customer.getPassword());
+    }
+
+    @Override
+    public Customer findByUsername(Customer obj) {
+        return null;
+    }
+
+    @Override
+    public Customer findByEmail(Customer obj) {
+        return null;
+    }
+
+    @Override
+    public Customer findByToken(Customer obj) {
+        return null;
     }
 }

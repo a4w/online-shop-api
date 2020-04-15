@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
-public class MySQLAdminMapper implements Repository<Admin> {
+public class MySQLAdminMapper implements Repository<Admin>,AccountRepository<Admin> {
 
     private static MySQLAdminMapper instance = null;
     private Connection dbConnection;
@@ -76,5 +76,20 @@ public class MySQLAdminMapper implements Repository<Admin> {
         stmt.setString(1, admin.getEmail());
         stmt.setString(2, admin.getUsername());
         stmt.setString(3, admin.getPassword());
+    }
+
+    @Override
+    public Admin findByUsername(Admin obj) {
+        return null;
+    }
+
+    @Override
+    public Admin findByEmail(Admin obj) {
+        return null;
+    }
+
+    @Override
+    public Admin findByToken(Admin obj) {
+        return null;
     }
 }

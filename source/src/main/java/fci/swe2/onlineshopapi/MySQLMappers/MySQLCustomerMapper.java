@@ -46,8 +46,10 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT `id`, `email`, `username`, `password` FROM `Customer` WHERE `id` = ?");
             stmt.setLong(1, id);
             ResultSet result = stmt.executeQuery();
-            if(!result.isAfterLast())
+            if(!result.isAfterLast()){
+                result.next();
                 return createCustomerFromRow(result);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

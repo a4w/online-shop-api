@@ -38,8 +38,10 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT `id`, `email`, `username`, `password` FROM `Admin` WHERE `id` = ?");
             stmt.setLong(1, id);
             ResultSet result = stmt.executeQuery();
-            if(!result.isAfterLast())
+            if(!result.isAfterLast()){
+                result.next();
                 return createAdminFromRow(result);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

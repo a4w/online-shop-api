@@ -80,7 +80,6 @@ public abstract class API implements HttpHandler {
                     break;
                 }
             }
-            System.out.println("User: " + this.loggedInAccount.getUsername());
         }catch(Exception e){
             e.printStackTrace();
         }

@@ -106,11 +106,62 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
 
     @Override
     public Customer findByUsername(Customer obj) {
-        return null;
+        Customer[]customers = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            customers= getCustomers(stmt);
+        }catch(SQLException e){
+            ///todo
+        }
+        handleGetEmailAndUsername(customers);
+        return customers[0];
     }
 
     @Override
     public Customer findByEmail(Customer obj) {
-        return null;
+        Customer[]customers = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            customers= getCustomers(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        handleGetEmailAndUsername(customers);
+        return customers[0];
+    }
+    private void handleGetEmailAndUsername(Customer []customers){
+        if(customers.length <1 || customers.length > 1){
+            /// todo WE NEED TO THROW EXCEPTION
+
+        }
+    }
+    private Customer getCustomerfromRow(ResultSet result ){
+        long ID = 0;
+        Customer customer = null;
+        try {
+            ID = result.getLong(1);
+            String username = result.getString(3);
+            String email = result.getString(2);
+            String password = result.getString(4);
+            customer = new Customer(ID, username, email, password);
+        } catch (SQLException e) {
+            /// todo
+            e.printStackTrace();
+        }
+        return customer;
+    }
+    private Customer[] getCustomers(PreparedStatement stmt){
+        ArrayList<Customer> customers = new ArrayList<>();
+        try{
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                Customer customer = getCustomerfromRow(result);
+                customers.add(customer);
+            }
+        }catch(SQLException e){ }
+        Customer[] customersa = new Customer[customers.size()];
+        return customers.toArray(customersa);
     }
 }

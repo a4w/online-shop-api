@@ -1,13 +1,13 @@
 package fci.swe2.onlineshopapi;
 
 public class Proxy {
-    boolean isAdmin(Account obj ){
+    static boolean isAdmin(Account obj ){
         return obj instanceof  Admin;
     }
-    boolean isCustomer(Account obj ){
+    static boolean isCustomer(Account obj ){
         return obj instanceof  Customer;
     }
-    boolean isStoreOwner(Account obj ){
+    static boolean isStoreOwner(Account obj ){
         return obj instanceof  StoreOwner;
     }
 }

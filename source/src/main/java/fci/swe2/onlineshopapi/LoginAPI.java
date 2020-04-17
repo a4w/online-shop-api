@@ -37,7 +37,8 @@ public class LoginAPI extends API {
     }
 
     private void loginAccount(){
-        Admin admin = new Admin(1,"admin","email@gmail.com","1234");
+
+        Admin admin = new Admin(1,"admin","email@gmail.com","123456789");
         loginAccount((Account) admin);
     }
     private void loginAccount(Account account){

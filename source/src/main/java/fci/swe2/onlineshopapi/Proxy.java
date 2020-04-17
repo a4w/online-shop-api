@@ -1,6 +1,6 @@
 package fci.swe2.onlineshopapi;
 
-public class proxy {
+public class Proxy {
 
     public static boolean IsCustomer(Object obj){
         return (obj.getClass() == Customer.class);

@@ -11,6 +11,7 @@ import fci.swe2.onlineshopapi.AccountRepository;
 import fci.swe2.onlineshopapi.Admin;
 import fci.swe2.onlineshopapi.DatabaseConnection;
 import fci.swe2.onlineshopapi.Repository;
+import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
 public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Admin> {
@@ -32,8 +33,17 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
         return false;
     }
 
-    public Admin retrieve(long id){
-        return null;
+    public Admin retrieve(long id) throws ObjectNotFoundException {
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT `id`, `email`, `username`, `password` FROM `Admin` WHERE `id` = ?");
+            stmt.setLong(1, id);
+            ResultSet result = stmt.executeQuery();
+            if(!result.isAfterLast())
+                return createAdminFromRow(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new ObjectNotFoundException();
     }
 
     public Admin[] retrieveAll(){
@@ -138,6 +148,15 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
         }
         return admin;
     }
+
+    private Admin createAdminFromRow(ResultSet result) throws SQLException{
+        final long id = result.getLong("id");
+        final String email = result.getString("email");
+        final String username = result.getString("username");
+        final String password = result.getString("password");
+        return new Admin(id, username, email, password);
+    }
+
     private Admin[] getAdmins(PreparedStatement stmt){
         ArrayList<Admin> admins = new ArrayList<>();
         try{

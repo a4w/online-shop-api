@@ -109,11 +109,11 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
     }
 
     @Override
-    public Customer findByUsername(Customer obj) {
+    public Customer findByUsername(String obj) {
         Customer[]customers = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where username =?");
-            stmt.setString(1 ,obj.getUsername());
+            stmt.setString(1 ,obj);
             customers= getCustomers(stmt);
         }catch(SQLException e){
             ///todo
@@ -127,11 +127,11 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
     }
 
     @Override
-    public Customer findByEmail(Customer obj) {
+    public Customer findByEmail(String obj) {
         Customer[]customers = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where email =?");
-            stmt.setString(1 ,obj.getEmail());
+            stmt.setString(1 ,obj);
             customers= getCustomers(stmt);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -83,11 +83,11 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
     }
 
     @Override
-    public StoreOwner findByUsername(StoreOwner obj) {
+    public StoreOwner findByUsername(String obj) {
         StoreOwner[]storeowners = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `StoreOwner` where username =?");
-            stmt.setString(1 ,obj.getUsername());
+            stmt.setString(1 ,obj);
             storeowners= getStoreOwners(stmt);
         }catch(SQLException e){
             ///todo
@@ -101,11 +101,11 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
     }
 
     @Override
-    public StoreOwner findByEmail(StoreOwner obj) {
+    public StoreOwner findByEmail(String obj) {
         StoreOwner[]storeowners = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `StoreOwner` where email =?");
-            stmt.setString(1 ,obj.getEmail());
+            stmt.setString(1 ,obj);
             storeowners= getStoreOwners(stmt);
         } catch (SQLException e) {
             e.printStackTrace();

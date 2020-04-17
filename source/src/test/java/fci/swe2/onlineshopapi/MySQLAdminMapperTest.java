@@ -8,7 +8,7 @@ public class MySQLAdminMapperTest extends TestCase {
     public void testGetAdminEmail(){
         Admin admin = new Admin(1,"ahmeddraway","ahmedhanfy11111@gmail.com" ,"1211134561" );
         MySQLAdminMapper s =  MySQLAdminMapper.getInstance();
-        Admin res = s.findByEmail(admin);
+        Admin res = s.findByEmail(admin.getEmail());
         assertEquals(res.getPassword() , admin.getPassword()) ;
         assertEquals(res.getUsername() , admin.getUsername()) ;
         assertEquals(res.getEmail() , admin.getEmail()) ;
@@ -17,7 +17,7 @@ public class MySQLAdminMapperTest extends TestCase {
     public void testGetAdminByusername(){
         Admin admin = new Admin(1,"ahmeddraway","ahmedhanfy11111@gmail.com" ,"1211134561" );
         MySQLAdminMapper s =  MySQLAdminMapper.getInstance();
-        Admin res = s.findByUsername(admin);
+        Admin res = s.findByUsername(admin.getUsername());
         assertEquals(res.getPassword() , admin.getPassword()) ;
         assertEquals(res.getUsername() , admin.getUsername()) ;
         assertEquals(res.getEmail() , admin.getEmail()) ;

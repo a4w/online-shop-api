@@ -82,11 +82,11 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
     }
 
     @Override
-    public Admin findByUsername(Admin obj) {
+    public Admin findByUsername(String obj) {
         Admin[]admins = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where username =?");
-            stmt.setString(1 ,obj.getUsername());
+            stmt.setString(1 ,obj);
             admins= getAdmins(stmt);
         }catch(SQLException e){
             ///todo
@@ -100,11 +100,11 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
     }
 
     @Override
-    public Admin findByEmail(Admin obj) {
+    public Admin findByEmail(String obj) {
         Admin[]admins = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where email =?");
-            stmt.setString(1 ,obj.getEmail());
+            stmt.setString(1 ,obj);
             admins= getAdmins(stmt);
         } catch (SQLException e) {
             e.printStackTrace();

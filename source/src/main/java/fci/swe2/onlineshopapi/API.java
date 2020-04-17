@@ -28,6 +28,7 @@ public abstract class API implements HttpHandler {
         this.parser = new DefaultParser(exchange);
         try{
             this.requestBody = parser.parseBody();
+
         }catch(Exception e){
             sendMalformedRequestError();
             throw e;

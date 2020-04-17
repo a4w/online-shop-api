@@ -87,9 +87,4 @@ public class MySQLAdminMapper implements Repository<Admin>,AccountRepository<Adm
     public Admin findByEmail(Admin obj) {
         return null;
     }
-
-    @Override
-    public Admin findByToken(Admin obj) {
-        return null;
-    }
 }

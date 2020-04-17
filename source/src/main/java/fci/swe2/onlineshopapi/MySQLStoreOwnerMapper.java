@@ -89,8 +89,4 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>,AccountRepo
         return null;
     }
 
-    @Override
-    public StoreOwner findByToken(StoreOwner obj) {
-        return null;
-    }
 }

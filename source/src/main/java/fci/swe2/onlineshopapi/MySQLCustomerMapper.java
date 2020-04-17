@@ -113,9 +113,4 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
     public Customer findByEmail(Customer obj) {
         return null;
     }
-
-    @Override
-    public Customer findByToken(Customer obj) {
-        return null;
-    }
 }

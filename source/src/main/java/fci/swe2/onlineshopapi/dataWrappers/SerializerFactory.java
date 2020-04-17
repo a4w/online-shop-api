@@ -47,6 +47,7 @@ public class SerializerFactory{
       register(UserFriendlyError.class, Type.JSON, new JsonUserMessageSerializer());
       register(String.class, Type.JSON, new JsonCustomMessageSerializer());
       register(AllUsersWrapper.class, Type.JSON, new JsonAllUsersSerializer());
+      register(LoginRequestWrapper.class,Type.JSON, new LoginRequestSerializer());
   }
 
   static{

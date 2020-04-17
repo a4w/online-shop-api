@@ -1,4 +1,5 @@
 package fci.swe2.onlineshopapi;
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLStoreOwnerMapper;
 import junit.framework.TestCase;
 public class MySQLStoreOwnerMapperTest  extends TestCase {
     public void testGetStoreOwnerEmail(){

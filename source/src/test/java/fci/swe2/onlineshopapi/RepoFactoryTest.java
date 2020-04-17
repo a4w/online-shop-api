@@ -1,5 +1,7 @@
 package fci.swe2.onlineshopapi;
 
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLAdminMapper;
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLCustomerMapper;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

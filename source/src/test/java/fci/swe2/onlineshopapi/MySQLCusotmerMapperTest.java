@@ -1,5 +1,6 @@
 package fci.swe2.onlineshopapi;
 
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLCustomerMapper;
 import junit.framework.TestCase;
 
 public class MySQLCusotmerMapperTest extends TestCase {

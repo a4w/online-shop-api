@@ -81,12 +81,63 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>,AccountRepo
 
     @Override
     public StoreOwner findByUsername(StoreOwner obj) {
-        return null;
+        StoreOwner[]storeowners = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `StoreOwner` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            storeowners= getStoreOwners(stmt);
+        }catch(SQLException e){
+            ///todo
+        }
+        handleGetEmailAndUsername(storeowners);
+        return storeowners[0];
     }
 
     @Override
     public StoreOwner findByEmail(StoreOwner obj) {
-        return null;
+        StoreOwner[]storeowners = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `StoreOwner` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            storeowners= getStoreOwners(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        handleGetEmailAndUsername(storeowners);
+        return storeowners[0];
+    }
+    private void handleGetEmailAndUsername(StoreOwner []storeowners){
+        if(storeowners.length <1 || storeowners.length > 1){
+            /// todo WE NEED TO THROW EXCEPTION
+
+        }
+    }
+    private StoreOwner getStoreOwnerfromRow(ResultSet result ){
+        long ID = 0;
+        StoreOwner storeowner = null;
+        try {
+            ID = result.getLong(1);
+            String username = result.getString(3);
+            String email = result.getString(2);
+            String password = result.getString(4);
+            storeowner = new StoreOwner(ID, username, email, password);
+        } catch (SQLException e) {
+            /// todo
+            e.printStackTrace();
+        }
+        return storeowner;
+    }
+    private StoreOwner[] getStoreOwners(PreparedStatement stmt){
+        ArrayList<StoreOwner> storeowners = new ArrayList<>();
+        try{
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                StoreOwner storeowner = getStoreOwnerfromRow(result);
+                storeowners.add(storeowner);
+            }
+        }catch(SQLException e){ }
+        StoreOwner[] storeownersa = new StoreOwner[storeowners.size()];
+        return storeowners.toArray(storeownersa);
     }
 
 }

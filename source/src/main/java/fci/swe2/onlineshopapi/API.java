@@ -4,11 +4,13 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import fci.swe2.onlineshopapi.JWT.UserType;
 import fci.swe2.onlineshopapi.dataWrappers.Serializer;
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory.Type;
 import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
+import io.jsonwebtoken.Claims;
 import fci.swe2.onlineshopapi.exceptions.MalformedRequestException;
 
 import java.io.IOException;
@@ -19,6 +21,7 @@ public abstract class API implements HttpHandler {
     HttpExchange exchange = null;
     String requestBody = null;
     SerializerFactory.Type responseType = Type.JSON;
+    Account loggedInAccount = null;
 
     @Override
     abstract public void handle(HttpExchange exchange);
@@ -50,6 +53,36 @@ public abstract class API implements HttpHandler {
         catch (Exception e){
             sendWrongContentTypeError();
             throw e;
+        }
+        // Authorization
+        final String jwt = headers.getFirst("Authorization");
+        try{
+            Claims claims = JWT.decodeJWT(jwt);
+            // TODO: Find a better way
+            final UserType type = UserType.valueOf(claims.get("user_type", String.class));
+            final Long user_id = claims.get("user_id", Long.class);
+            System.out.println(type);
+            System.out.println(user_id);
+            switch(type){
+                case CUSTOMER:{
+                    Repository<Customer> repo = RepoFactory.getMapper(Customer.class);
+                    this.loggedInAccount = repo.retrieve(user_id);
+                    break;
+                }
+                case ADMIN:{
+                    Repository<Admin> repo = RepoFactory.getMapper(Admin.class);
+                    this.loggedInAccount = repo.retrieve(user_id);
+                    break;
+                }
+                case STORE_OWNER:{
+                    Repository<StoreOwner> repo = RepoFactory.getMapper(StoreOwner.class);
+                    this.loggedInAccount = repo.retrieve(user_id);
+                    break;
+                }
+            }
+            System.out.println("User: " + this.loggedInAccount.getUsername());
+        }catch(Exception e){
+            e.printStackTrace();
         }
     }
 

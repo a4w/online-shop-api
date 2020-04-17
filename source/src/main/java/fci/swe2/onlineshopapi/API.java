@@ -55,8 +55,8 @@ public abstract class API implements HttpHandler {
             throw e;
         }
         // Authorization
-        final String jwt = headers.getFirst("Authorization");
         try{
+            final String jwt = headers.getFirst("Authorization");
             Claims claims = JWT.decodeJWT(jwt);
             // TODO: Find a better way
             final UserType type = UserType.valueOf(claims.get("user_type", String.class));

@@ -2,16 +2,16 @@ package fci.swe2.onlineshopapi;
 
 public class proxy {
 
-    public boolean IsCustomer(Object obj){
-        return (obj instanceof Customer);
+    public static boolean IsCustomer(Object obj){
+        return (obj.getClass() == Customer.class);
     }
 
-    public boolean IsStoreOwner(Object obj){
-        return (obj instanceof StoreOwner);
+    public static boolean IsStoreOwner(Object obj){
+        return (obj.getClass() == StoreOwner.class);
     }
 
-    public boolean IsAdmin(Object obj){
-        return (obj instanceof Admin);
+    public static boolean IsAdmin(Object obj){
+        return (obj.getClass() == Admin.class);
     }
 
 }

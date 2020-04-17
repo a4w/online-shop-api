@@ -67,8 +67,8 @@ abstract class Account {
     }
 
     // to do handle more details?
-    protected void login(){
-        this.loginBehaviour.login(this);
+    protected String login(){
+        return this.loginBehaviour.login(this);
     }
 }
 

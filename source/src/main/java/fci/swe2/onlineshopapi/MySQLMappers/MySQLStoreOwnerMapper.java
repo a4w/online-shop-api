@@ -7,10 +7,8 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 
-import fci.swe2.onlineshopapi.AccountRepository;
-import fci.swe2.onlineshopapi.DatabaseConnection;
-import fci.swe2.onlineshopapi.Repository;
-import fci.swe2.onlineshopapi.StoreOwner;
+import fci.swe2.onlineshopapi.*;
+import fci.swe2.onlineshopapi.exceptions.ObjectNotFoundException;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 
 public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRepository<StoreOwner> {
@@ -32,8 +30,17 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
         return false;
     }
 
-    public StoreOwner retrieve(long id){
-        return null;
+    public StoreOwner retrieve(long id) throws ObjectNotFoundException {
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT `id`, `email`, `username`, `password` FROM `StoreOwner` WHERE `id` = ?");
+            stmt.setLong(1, id);
+            ResultSet result = stmt.executeQuery();
+            if(!result.isAfterLast())
+                return (createStoreOwnerFromRow(result));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new ObjectNotFoundException();
     }
 
     public StoreOwner[] retrieveAll(){
@@ -140,6 +147,15 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
         }
         return storeowner;
     }
+
+    private StoreOwner createStoreOwnerFromRow(ResultSet result) throws SQLException{
+        final long id = result.getLong("id");
+        final String email = result.getString("email");
+        final String username = result.getString("username");
+        final String password = result.getString("password");
+        return new StoreOwner(id, username, email, password);
+    }
+
     private StoreOwner[] getStoreOwners(PreparedStatement stmt){
         ArrayList<StoreOwner> storeowners = new ArrayList<>();
         try{

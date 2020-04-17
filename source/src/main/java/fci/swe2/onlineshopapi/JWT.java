@@ -21,11 +21,11 @@ public class JWT {
         Date now = new Date(timenow);
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, algo.getJcaName());
-        JwtBuilder jwt = Jwts.builder().claim("id", id)
-                        .claim("userType", type)
+        JwtBuilder jwt = Jwts.builder().claim("user_id", id)
+                        .claim("user_type", type)
                         .setIssuedAt(now)
                         .signWith(algo,signingKey);
-                        ;
+
         if(duration > 0)
         {
             long expiration = timenow + duration;

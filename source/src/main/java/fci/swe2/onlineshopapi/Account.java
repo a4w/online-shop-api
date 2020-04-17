@@ -15,6 +15,7 @@ abstract class Account {
     }
     public Account(long userID , String username , String email , String password){
         this.registrationBehaviour = new DefaultRegistration();
+        this.loginBehaviour = new DefaultLogin();
         this.userID = userID;
         this.email = email;
         this.username= username;

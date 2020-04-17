@@ -9,6 +9,9 @@ import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory.Type;
 import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import fci.swe2.onlineshopapi.exceptions.MalformedRequestException;
 
 import java.io.IOException;
@@ -49,6 +52,18 @@ public abstract class API implements HttpHandler {
         catch (Exception e){
             sendWrongContentTypeError();
             throw e;
+        }
+        final String jwt_token = headers.getFirst("Authorization");
+        try{
+            Claims claims = Jwts.parserBuilder().setSigningKey("1234").build().parseClaimsJws(jwt_token).getBody();
+            Long userid = claims.get("user_id", Long.class);
+            String user_type = claims.get("user_type", String.class);
+            System.out.println(userid);
+            System.out.println(user_type);
+        }catch(JwtException e){
+            // No token
+            e.printStackTrace();
+            System.out.println("No token");
         }
     }
 

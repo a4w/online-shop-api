@@ -80,11 +80,63 @@ public class MySQLAdminMapper implements Repository<Admin>,AccountRepository<Adm
 
     @Override
     public Admin findByUsername(Admin obj) {
-        return null;
+        Admin[]admins = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            admins= getAdmins(stmt);
+        }catch(SQLException e){
+            ///todo
+        }
+        handleGetEmailAndUsername(admins);
+        return admins[0];
     }
 
     @Override
     public Admin findByEmail(Admin obj) {
-        return null;
+        Admin[]admins = null;
+        try {
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where email =?");
+            stmt.setString(1 ,obj.getEmail());
+            admins= getAdmins(stmt);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        handleGetEmailAndUsername(admins);
+        return admins[0];
     }
+    private void handleGetEmailAndUsername(Admin []admins){
+        if(admins.length <1 || admins.length > 1){
+            /// todo WE NEED TO THROW EXCEPTION
+
+        }
+    }
+    private Admin getAdminfromRow(ResultSet result ){
+        long ID = 0;
+        Admin admin = null;
+        try {
+            ID = result.getLong(1);
+            String username = result.getString(3);
+            String email = result.getString(2);
+            String password = result.getString(4);
+            admin = new Admin(ID, username, email, password);
+        } catch (SQLException e) {
+            /// todo
+            e.printStackTrace();
+        }
+        return admin;
+    }
+    private Admin[] getAdmins(PreparedStatement stmt){
+        ArrayList<Admin> admins = new ArrayList<>();
+        try{
+            ResultSet result = stmt.executeQuery();
+            while(result.next()){
+                Admin admin = getAdminfromRow(result);
+                admins.add(admin);
+            }
+        }catch(SQLException e){ }
+        Admin[] adminsa = new Admin[admins.size()];
+        return admins.toArray(adminsa);
+    }
+
 }

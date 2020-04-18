@@ -1,6 +1,7 @@
 package fci.swe2.onlineshopapi;
 
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
+import fci.swe2.onlineshopapi.exceptions.InvalidCredentialsException;
 
 abstract class Account {
     protected long userID;
@@ -67,8 +68,7 @@ abstract class Account {
         this.registrationBehaviour.register(this);
     }
 
-    // to do handle more details?
-    protected String login(){
+    protected String login() throws InvalidCredentialsException {
         return this.loginBehaviour.login(this);
     }
 }

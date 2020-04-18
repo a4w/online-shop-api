@@ -4,6 +4,9 @@ import com.sun.net.httpserver.HttpExchange;
 import fci.swe2.onlineshopapi.dataWrappers.LoginRequestWrapper;
 import fci.swe2.onlineshopapi.dataWrappers.Serializer;
 import fci.swe2.onlineshopapi.dataWrappers.SerializerFactory;
+import fci.swe2.onlineshopapi.dataWrappers.TokenWrapper;
+import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
+import fci.swe2.onlineshopapi.exceptions.InvalidCredentialsException;
 
 public class LoginAPI extends API {
     @Override
@@ -39,6 +42,7 @@ public class LoginAPI extends API {
         }
     }
 
+    // TODO: Refractor login methods to be dry
     private void loginCustomer(){
         Serializer<LoginRequestWrapper> serializer = SerializerFactory.getSerializer(LoginRequestWrapper.class,this.responseType);
         LoginRequestWrapper wrapper = serializer.unserialize(this.requestBody);
@@ -65,15 +69,17 @@ public class LoginAPI extends API {
         storeOwner.setPassword(wrapper.getPassword());
         loginAccount(storeOwner);
     }
-    /*
-    private void loginAccount(){
-
-        Admin admin = new Admin(1,"admin","email@gmail.com","123456789");
-        loginAccount((Account) admin);
-    }
-    */
 
     private void loginAccount(Account account){
-        sendResponse(account.login());
+        try{
+            final String token = account.login();
+            TokenWrapper tokenObject = new TokenWrapper(token);
+            Serializer<TokenWrapper> serializer = SerializerFactory.getSerializer(TokenWrapper.class, this.responseType);
+            sendResponse(serializer.serialize(tokenObject));
+        }catch(InvalidCredentialsException e){
+            // TODO: Send exception
+            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
+            sendResponse(serializer.serialize(e));
+        }
     }
 }

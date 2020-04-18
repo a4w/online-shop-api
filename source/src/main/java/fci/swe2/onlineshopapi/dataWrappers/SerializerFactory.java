@@ -10,7 +10,7 @@ import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 
 public class SerializerFactory{
   public enum Type{
-    JSON, XML
+    JSON
   }
 
   public static class MapKey {
@@ -48,6 +48,7 @@ public class SerializerFactory{
       register(String.class, Type.JSON, new JsonCustomMessageSerializer());
       register(AllUsersWrapper.class, Type.JSON, new JsonAllUsersSerializer());
       register(LoginRequestWrapper.class,Type.JSON, new LoginRequestSerializer());
+      register(TokenWrapper.class,Type.JSON, new JsonTokenSerializer());
   }
 
   static{

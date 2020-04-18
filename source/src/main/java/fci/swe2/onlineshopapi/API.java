@@ -63,8 +63,6 @@ public abstract class API implements HttpHandler {
             // TODO: Find a better way - maybe factory
             final UserType type = UserType.valueOf(claims.get("user_type", String.class));
             final Long user_id = claims.get("user_id", Long.class);
-            System.out.println(type);
-            System.out.println(user_id);
             switch(type){
                 case CUSTOMER:{
                     Repository<Customer> repo = RepoFactory.getMapper(Customer.class);

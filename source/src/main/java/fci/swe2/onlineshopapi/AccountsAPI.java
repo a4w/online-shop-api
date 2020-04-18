@@ -27,7 +27,6 @@ class AccountsAPI extends API{
         String action= urlParameters[1];
         switch (action){
             case "getAll":
-                System.out.println(this.loggedInAccount);
                 if(this.loggedInAccount != null && Proxy.isAdmin(this.loggedInAccount)){
                     this.getAllAccounts();
                 }else{

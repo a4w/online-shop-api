@@ -76,7 +76,6 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
 
     public void store(Customer obj) throws ValidationException{
         try {
-            System.out.println("Storing a user");
             PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `Customer` (`email`, `username`, `password`) VALUES (?, ?, ?)");
             bindCustomer(obj, stmt);
             stmt.executeUpdate();

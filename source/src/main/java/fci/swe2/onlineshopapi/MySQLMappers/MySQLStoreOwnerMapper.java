@@ -65,7 +65,6 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
 
     public void store(StoreOwner obj) throws ValidationException{
         try {
-            System.out.println("Storing a user");
             PreparedStatement stmt = dbConnection.prepareStatement("INSERT INTO `StoreOwner` (`email`, `username`, `password`) VALUES (?, ?, ?)");
             bindStoreOwner(obj, stmt);
             stmt.executeUpdate();

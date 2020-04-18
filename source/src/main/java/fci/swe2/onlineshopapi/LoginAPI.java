@@ -44,19 +44,13 @@ public class LoginAPI extends API {
 
     private void loginAccount(Account account){
         try{
-            System.out.println("Getting serializer");
             LoginRequestWrapper wrapper = SerializerFactory.defaultUnserialize(LoginRequestWrapper.class, this.requestBody, this.responseType);
-            System.out.println("Got it");
             account.setUsername(wrapper.getUsername());
             account.setPassword(wrapper.getPassword());
-            System.out.println("Got creds");
             final String token = account.login();
-            System.out.println("Login");
             TokenWrapper tokenObject = new TokenWrapper(token);
             sendResponseObject(tokenObject, 200);
-            System.out.println("Response sent");
         }catch(InvalidCredentialsException e){
-            System.out.println("Sending error");
             sendResponseObjectAs(UserFriendlyError.class, e, 401);
         }
     }

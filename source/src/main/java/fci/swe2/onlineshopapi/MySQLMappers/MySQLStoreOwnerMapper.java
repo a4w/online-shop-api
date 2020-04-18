@@ -102,7 +102,7 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
             ///todo
         }
         try {
-            handleGetEmailAndUsername(storeowners);
+            singleResult(storeowners);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -110,7 +110,7 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
     }
 
     @Override
-    public StoreOwner findByEmail(String obj) {
+    public StoreOwner findByEmail(String obj) throws ObjectNotFoundException {
         StoreOwner[]storeowners = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `StoreOwner` where email =?");
@@ -119,19 +119,14 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            handleGetEmailAndUsername(storeowners);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        singleResult(storeowners);
         return storeowners[0];
     }
-    private void handleGetEmailAndUsername(StoreOwner []storeowners) throws Exception {
+    private void singleResult(StoreOwner []storeowners) throws ObjectNotFoundException {
         if(storeowners.length <1 || storeowners.length > 1){
-            /// todo WE NEED TO THROW EXCEPTION
-            throw  new Exception("wrong query");
-
-
+            /// case > 1 will never happen because we use with email and username and they are unique in database
+            ///todo object ffrom object not found exception = done
+            throw  new ObjectNotFoundException();
         }
     }
     private StoreOwner getStoreOwnerfromRow(ResultSet result ){

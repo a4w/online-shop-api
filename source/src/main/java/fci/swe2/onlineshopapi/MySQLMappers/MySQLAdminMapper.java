@@ -94,7 +94,7 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
     }
 
     @Override
-    public Admin findByUsername(String obj) {
+    public Admin findByUsername(String obj) throws ObjectNotFoundException {
         Admin[]admins = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where username =?");
@@ -103,16 +103,12 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
         }catch(SQLException e){
             ///todo
         }
-        try {
-            handleGetEmailAndUsername(admins);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        singleResult(admins);
         return admins[0];
     }
 
     @Override
-    public Admin findByEmail(String obj) {
+    public Admin findByEmail(String obj) throws ObjectNotFoundException {
         Admin[]admins = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Admin` where email =?");
@@ -121,18 +117,14 @@ public class MySQLAdminMapper implements Repository<Admin>, AccountRepository<Ad
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            handleGetEmailAndUsername(admins);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        singleResult(admins);
         return admins[0];
     }
-    private void handleGetEmailAndUsername(Admin []admins) throws Exception {
+    private void singleResult(Admin []admins) throws ObjectNotFoundException {
         if(admins.length <1 || admins.length > 1){
-            /// todo WE NEED TO THROW EXCEPTION
-            throw  new Exception("wrong query");
-
+            /// case > 1 will never happen because we use with email and username and they are unique in database
+            ///todo object ffrom object not found exception = done
+            throw  new ObjectNotFoundException();
         }
     }
     private Admin getAdminfromRow(ResultSet result ){

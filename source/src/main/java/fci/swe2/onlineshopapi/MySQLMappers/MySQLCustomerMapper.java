@@ -111,7 +111,7 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
     }
 
     @Override
-    public Customer findByUsername(String obj) {
+    public Customer findByUsername(String obj) throws ObjectNotFoundException {
         Customer[]customers = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where username =?");
@@ -120,16 +120,12 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
         }catch(SQLException e){
             ///todo
         }
-        try {
-            handleGetEmailAndUsername(customers);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        singleResult(customers);
         return customers[0];
     }
 
     @Override
-    public Customer findByEmail(String obj) {
+    public Customer findByEmail(String obj) throws ObjectNotFoundException {
         Customer[]customers = null;
         try {
             PreparedStatement stmt = dbConnection.prepareStatement("SELECT * FROM `Customer` where email =?");
@@ -138,17 +134,16 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        try {
-            handleGetEmailAndUsername(customers);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            /// todo throws it dont catch it = done
+        singleResult(customers);
         return customers[0];
     }
-    private void handleGetEmailAndUsername(Customer []customers) throws Exception {
+    private void singleResult(Customer []customers) throws ObjectNotFoundException {
         if(customers.length <1 || customers.length > 1){
-            /// todo WE NEED TO THROW EXCEPTION
-            throw  new Exception("wrong query");
+            /// case > 1 will never happen because we use with email and username and they are unique in database
+            ///todo object ffrom object not found exception= done
+            throw  new ObjectNotFoundException();
+//            throw  new Exception("wrong query");
 
         }
     }

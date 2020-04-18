@@ -58,7 +58,7 @@ public abstract class API implements HttpHandler {
         try{
             final String jwt = headers.getFirst("Authorization");
             Claims claims = JWT.decodeJWT(jwt);
-            // TODO: Find a better way
+            // TODO: Find a better way - maybe factory
             final UserType type = UserType.valueOf(claims.get("user_type", String.class));
             final Long user_id = claims.get("user_id", Long.class);
             System.out.println(type);
@@ -106,7 +106,8 @@ public abstract class API implements HttpHandler {
             e.printStackTrace();
         }
     }
-
+///todo move messages to a class and composite here
+    /// todo add unauthorized msg
     private void sendWrongContentTypeError(){
         UserFriendlyError error = new ValidationException("The requested content type is not supported");
         Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);

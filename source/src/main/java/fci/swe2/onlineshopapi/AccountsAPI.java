@@ -27,11 +27,11 @@ class AccountsAPI extends API{
         String action= urlParameters[1];
         switch (action){
             case "getAll":
+                System.out.println(this.loggedInAccount);
                 if(this.loggedInAccount != null && Proxy.isAdmin(this.loggedInAccount)){
                     this.getAllAccounts();
                 }else{
-                    // TODO: Personalize error
-                    sendResponse("Unauthorized", 401);
+                    sendUnauthorizedResponse();
                 }
                 break;
             default:
@@ -44,8 +44,6 @@ class AccountsAPI extends API{
         Customer[] customers = AccountManager.getAllAccounts(Customer.class);
         StoreOwner[] storeOwners = AccountManager.getAllAccounts(StoreOwner.class);
         AllUsersWrapper allUsers = new AllUsersWrapper(customers, storeOwners, new Admin[0]);
-        Serializer<AllUsersWrapper> serializer = SerializerFactory.getSerializer(AllUsersWrapper.class, this.responseType);
-        String output = serializer.serialize(allUsers);
-        sendResponse(output);
+        sendResponseObject(allUsers, 200);
     }
 }

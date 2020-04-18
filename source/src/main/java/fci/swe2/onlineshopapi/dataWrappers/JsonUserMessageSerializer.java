@@ -8,7 +8,7 @@ public class JsonUserMessageSerializer implements Serializer<UserFriendlyError> 
     public String serialize(UserFriendlyError obj) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("error" , true);
-        jsonObject.put("error_type" , obj.getUserFriendlyError());
+        jsonObject.put("message" , obj.getUserFriendlyError());
         return  jsonObject.toString();
     }
 

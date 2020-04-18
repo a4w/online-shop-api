@@ -67,8 +67,7 @@ public class RegisterAPI extends API {
             account.register();
             sendOkRequest();
         }catch (ValidationException e){
-            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
-            sendResponse(serializer.serialize(e));
+            sendResponseObjectAs(UserFriendlyError.class, e, 409);
         }
     }
 }

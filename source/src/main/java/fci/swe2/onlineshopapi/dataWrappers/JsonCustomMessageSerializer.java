@@ -7,7 +7,7 @@ public class JsonCustomMessageSerializer implements Serializer<String> {
     public String serialize(String str) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("error" , false);
-        jsonObject.put("error_type" , str);
+        jsonObject.put("message" , str);
         return jsonObject.toString();
     }
 

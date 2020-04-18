@@ -12,6 +12,7 @@ import fci.swe2.onlineshopapi.exceptions.UserFriendlyError;
 import fci.swe2.onlineshopapi.exceptions.ValidationException;
 import io.jsonwebtoken.Claims;
 import fci.swe2.onlineshopapi.exceptions.MalformedRequestException;
+import fci.swe2.onlineshopapi.exceptions.UnauthorizedRequestException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,6 +28,7 @@ public abstract class API implements HttpHandler {
     abstract public void handle(HttpExchange exchange);
 
     void setParserExchange(HttpExchange exchange) throws Exception{
+        this.loggedInAccount = null;
         this.exchange = exchange;
         this.parser = new DefaultParser(exchange);
         try{
@@ -86,18 +88,13 @@ public abstract class API implements HttpHandler {
     }
 
     protected void sendResponse(String str){
-        try {
-            exchange.sendResponseHeaders(200, str.length());
-            OutputStream os = exchange.getResponseBody();
-            os.write(str.getBytes());
-            os.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        sendResponseObject(str, 200);
     }
 
     protected void sendResponse(String str, int statusCode){
         try {
+            Headers headers = exchange.getResponseHeaders();
+            headers.add("Content-Type", "application/json");
             exchange.sendResponseHeaders(statusCode, str.length());
             OutputStream os = exchange.getResponseBody();
             os.write(str.getBytes());
@@ -106,23 +103,34 @@ public abstract class API implements HttpHandler {
             e.printStackTrace();
         }
     }
-///todo move messages to a class and composite here
-    /// todo add unauthorized msg
+
     private void sendWrongContentTypeError(){
         UserFriendlyError error = new ValidationException("The requested content type is not supported");
-        Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
-        sendResponse(serializer.serialize(error), 415);
+        sendResponseObjectAs(UserFriendlyError.class, error, 415);
+    }
+
+    protected <T> void sendResponseObject(T object, int statusCode){
+        String response = SerializerFactory.defaultSerialize(object, this.responseType);
+        sendResponse(response, statusCode);
+    }
+
+    protected <T> void sendResponseObjectAs(Class<T> clazz, T object, int statusCode){
+        String response = SerializerFactory.defaultSerialize(clazz, object, this.responseType);
+        sendResponse(response, statusCode);
+    }
+
+    protected void sendUnauthorizedResponse(){
+        UserFriendlyError error = new UnauthorizedRequestException();
+        sendResponseObjectAs(UserFriendlyError.class, error, 401);
     }
 
     protected void sendMalformedRequestError(){
-        UserFriendlyError error = new MalformedRequestException("Malformed request");
-        Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
-        sendResponse(serializer.serialize(error), 400);
+        UserFriendlyError error = new MalformedRequestException();
+        sendResponseObjectAs(UserFriendlyError.class, error, 400);
     }
 
     protected void sendOkRequest(){
-        Serializer<String> serializer = SerializerFactory.getSerializer(String.class, this.responseType);
-        sendResponse(serializer.serialize("Request completed successfully"));
+        sendResponseObject("Request completed successfully", 200);
     }
 
 }

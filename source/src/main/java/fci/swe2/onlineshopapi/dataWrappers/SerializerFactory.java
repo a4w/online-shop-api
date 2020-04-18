@@ -64,6 +64,26 @@ public class SerializerFactory{
     return (Serializer<T>) map.get(new MapKey(c, t));
   }
 
+  @SuppressWarnings("unchecked")
+  public static <T> Serializer<T> getSerializer(Object object, Type t){
+    return (Serializer<T>) map.get(new MapKey(object.getClass(), t));
+  }
+
+  public static <T> String defaultSerialize(T object, Type t){
+      Serializer<T> serializer = getSerializer(object, t);
+      return serializer.serialize(object);
+  }
+
+  public static <T> String defaultSerialize(Class<T> object, T o, Type t){
+      Serializer<T> serializer = getSerializer(object, t);
+      return serializer.serialize(o);
+  }
+
+  public static <T> T defaultUnserialize(Class<T> clazz, String str, Type t){
+      Serializer<T> serializer = getSerializer(clazz, t);
+      return serializer.unserialize(str);
+  }
+
 }
 
 

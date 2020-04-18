@@ -36,6 +36,7 @@ public class RepoFactory {
         return (Repository<T>) repos.get(object.getClass());
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> AccountRepository<T> getMapperAccount(Object object){
         return (AccountRepository<T>) repos.get(object.getClass());
     }

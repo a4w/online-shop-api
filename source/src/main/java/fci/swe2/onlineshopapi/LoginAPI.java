@@ -28,13 +28,13 @@ public class LoginAPI extends API {
         String userType= urlParameters[1]; /// login/user , login/admin , login/storeowner
         switch (userType){
             case "customer":
-                this.loginCustomer();
+                this.loginAccount(new Customer());
                 break;
             case "admin":
-                this.loginAdmin();
+                this.loginAccount(new Admin());
                 break;
             case "storeowner":
-                this.loginStoreOwner();
+                this.loginAccount(new StoreOwner());
                 break;
             default:
                 sendMalformedRequestError();
@@ -42,44 +42,22 @@ public class LoginAPI extends API {
         }
     }
 
-    // TODO: Refractor login methods to be dry
-    private void loginCustomer(){
-        Serializer<LoginRequestWrapper> serializer = SerializerFactory.getSerializer(LoginRequestWrapper.class,this.responseType);
-        LoginRequestWrapper wrapper = serializer.unserialize(this.requestBody);
-        Customer customer = new Customer();
-        customer.setUsername(wrapper.getUsername());
-        customer.setPassword(wrapper.getPassword());
-        loginAccount(customer);
-    }
-
-    private void loginAdmin(){
-        Serializer<LoginRequestWrapper> serializer = SerializerFactory.getSerializer(LoginRequestWrapper.class,this.responseType);
-        LoginRequestWrapper wrapper = serializer.unserialize(this.requestBody);
-        Admin admin = new Admin();
-        admin.setUsername(wrapper.getUsername());
-        admin.setPassword(wrapper.getPassword());
-        loginAccount(admin);
-    }
-
-    private void loginStoreOwner(){
-        Serializer<LoginRequestWrapper> serializer = SerializerFactory.getSerializer(LoginRequestWrapper.class,this.responseType);
-        LoginRequestWrapper wrapper = serializer.unserialize(this.requestBody);
-        StoreOwner storeOwner = new StoreOwner();
-        storeOwner.setUsername(wrapper.getUsername());
-        storeOwner.setPassword(wrapper.getPassword());
-        loginAccount(storeOwner);
-    }
-
     private void loginAccount(Account account){
         try{
+            System.out.println("Getting serializer");
+            LoginRequestWrapper wrapper = SerializerFactory.defaultUnserialize(LoginRequestWrapper.class, this.requestBody, this.responseType);
+            System.out.println("Got it");
+            account.setUsername(wrapper.getUsername());
+            account.setPassword(wrapper.getPassword());
+            System.out.println("Got creds");
             final String token = account.login();
+            System.out.println("Login");
             TokenWrapper tokenObject = new TokenWrapper(token);
-            Serializer<TokenWrapper> serializer = SerializerFactory.getSerializer(TokenWrapper.class, this.responseType);
-            sendResponse(serializer.serialize(tokenObject));
+            sendResponseObject(tokenObject, 200);
+            System.out.println("Response sent");
         }catch(InvalidCredentialsException e){
-            // TODO: Send exception
-            Serializer<UserFriendlyError> serializer = SerializerFactory.getSerializer(UserFriendlyError.class, this.responseType);
-            sendResponse(serializer.serialize(e));
+            System.out.println("Sending error");
+            sendResponseObjectAs(UserFriendlyError.class, e, 401);
         }
     }
 }

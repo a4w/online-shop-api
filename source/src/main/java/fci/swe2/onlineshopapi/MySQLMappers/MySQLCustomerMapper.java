@@ -63,8 +63,8 @@ public class MySQLCustomerMapper implements Repository<Customer>, AccountReposit
             ResultSet result = stmt.executeQuery();
             while(result.next()){
                 long ID = result.getLong(1);
-                String username = result.getString(2);
-                String email = result.getString(3);
+                String email = result.getString(2);
+                String username = result.getString(3);
                 String password = result.getString(4);
                 Customer ob = new Customer(ID, username, email, password);
                 customers.add(ob);

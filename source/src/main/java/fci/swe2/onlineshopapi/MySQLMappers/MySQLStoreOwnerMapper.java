@@ -52,8 +52,8 @@ public class MySQLStoreOwnerMapper implements Repository<StoreOwner>, AccountRep
             ResultSet result = stmt.executeQuery();
             while(result.next()){
                 long ID = result.getLong(1);
-                String username = result.getString(2);
-                String email = result.getString(3);
+                String email = result.getString(2);
+                String username = result.getString(3);
                 String password = result.getString(4);
                 StoreOwner ob = new StoreOwner(ID, username, email, password);
                 owners.add(ob);

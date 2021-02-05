@@ -8,11 +8,14 @@ abstract class Account {
     protected String email;
     protected String password;
     protected RegistrationBehaviour registrationBehaviour;
+    protected LoginBehaviour loginBehaviour;
     public Account(){
         this.registrationBehaviour = new DefaultRegistration();
+        this.loginBehaviour = new DefaultLogin();
     }
     public Account(long userID , String username , String email , String password){
         this.registrationBehaviour = new DefaultRegistration();
+        this.loginBehaviour = new DefaultLogin();
         this.userID = userID;
         this.email = email;
         this.username= username;
@@ -34,6 +37,9 @@ abstract class Account {
         this.registrationBehaviour = registrationBehaviour;
     }
 
+    public void setLoginBehaviour(LoginBehaviour loginBehaviour){
+        this.loginBehaviour = loginBehaviour;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -59,6 +65,11 @@ abstract class Account {
         if(this.password.length() < 8)
             throw new ValidationException("Passwords must be atleast 8 charachter");
         this.registrationBehaviour.register(this);
+    }
+
+    // to do handle more details?
+    protected String login(){
+        return this.loginBehaviour.login(this);
     }
 }
 

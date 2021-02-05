@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-class DatabaseConnection{
+public class DatabaseConnection{
     final String DB_HOST = "localhost";
     final String DB_NAME = "online-shop-api";
     final String DB_USER = "root";
-    final String DB_PASS = "Socrat_1234";
+    final String DB_PASS = "12341234";
 
     private static DatabaseConnection instance = null;
 

@@ -24,10 +24,15 @@ class AccountsAPI extends API{
             return;
         }
 
-        String action= urlParameters[1]; /// register/user , register/admin , register/storeowner
+        String action= urlParameters[1];
         switch (action){
             case "getAll":
-                this.getAllAccounts();
+                if(this.loggedInAccount != null && Proxy.isAdmin(this.loggedInAccount)){
+                    this.getAllAccounts();
+                }else{
+                    // TODO: Personalize error
+                    sendResponse("Unauthorized", 401);
+                }
                 break;
             default:
                 sendMalformedRequestError();

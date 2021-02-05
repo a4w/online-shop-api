@@ -1,5 +1,9 @@
 package fci.swe2.onlineshopapi;
 
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLAdminMapper;
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLCustomerMapper;
+import fci.swe2.onlineshopapi.MySQLMappers.MySQLStoreOwnerMapper;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,4 +36,7 @@ public class RepoFactory {
         return (Repository<T>) repos.get(object.getClass());
     }
 
+    public static <T> AccountRepository<T> getMapperAccount(Object object){
+        return (AccountRepository<T>) repos.get(object.getClass());
+    }
 }
